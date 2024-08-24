@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_mongoengine import MongoEngine
 from flask_cors import CORS
-from models import ReadingMaterial, MCQQuiz, ShortAnswerQuiz, Material
+from models import ReadingMaterial, MCQQuiz, ShortAnswerQuiz, Material, Race
 from llm import generateLLM
 from flask_socketio import SocketIO
 import json
@@ -116,19 +116,42 @@ def get_all_materials():
         })
     return jsonify(all_materials), 200
 
-@app.route('/create-race', methods=["POST"])
+@app.route('/api/races', methods=["POST"])
 def create_race():
-    race_name = request.json.get('race_name')
-    admin_user = request.json.get('usermail')
-    material_id = request.json.get('material')
+    email = request.json.get('email')
+    material_id = request.json.get('material_id')
     if not isinstance(material_id, str):
         print(f"{material_id} is of type {type(material_id)}")
         return jsonify({"error": "material_id must be a string"}), 400
 
-    race = Race(race_name=race_name, participants=[admin_user], material=material_id)
+    race = Race(participants=[email], material_id=material_id)
     race.save()
     return jsonify({'race_id': str(race.id)}), 201
 
+@app.route('/api/races/<string:race_id>', methods=["PATCH"])
+def add_participant(race_id):
+    try:
+        data = request.get_json()
+        email = data.get("email")
+
+        if not email:
+            return jsonify({"status": 400, "message": "Email is required"}), 400
+
+        race = Race.objects(id=race_id).first()
+
+        if not race:
+            return jsonify({"status": 404, "message": "Race not found"}), 404
+
+        if email in race.participants:
+            return jsonify({"status": 400, "message": "Participant already in the race"}), 400
+
+        race.participants.append(email)
+        race.save()
+
+        return jsonify({"status": 200, "message": "Participant added successfully", "data": race.participants}), 200
+
+    except Exception as e:
+        return jsonify({"status": 500, "message": str(e)}), 500
 
 @socketio.on('join-race')
 def handle_join_race(data): 
