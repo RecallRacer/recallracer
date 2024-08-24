@@ -8,14 +8,26 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   UserCredential,
+  updateProfile,  // Import updateProfile
 } from "firebase/auth";
 
-// Function to create a new user with email and password
+// Function to create a new user with email, password, and displayName
 export const doCreateUserWithEmailAndPassword = async (
   email: string,
-  password: string
+  password: string,
+  displayName: string  // Accept displayName as a parameter
 ): Promise<UserCredential> => {
-  return createUserWithEmailAndPassword(auth, email, password);
+  const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+  const user = userCredential.user;
+
+  if (user) {
+    // Update the user's profile with the displayName
+    await updateProfile(user, {
+      displayName: displayName,
+    });
+  }
+
+  return userCredential;
 };
 
 // Function to sign in with email and password
@@ -29,9 +41,7 @@ export const doSignInWithEmailAndPassword = (
 // Function to sign in with Google
 export const doSignInWithGoogle = async (): Promise<void> => {
   const provider = new GoogleAuthProvider();
-  const result = await signInWithPopup(auth, provider);
-  const user = result.user;
-  // You might want to return or handle the user information here if needed
+  await signInWithPopup(auth, provider);
 };
 
 // Function to sign out the current user
