@@ -7,18 +7,13 @@ export const useGetMaterials = () => {
     const getMaterials = async (id: string) => {
         setLoading(true)
 
-        try {
-            const response = await fetch(`${apiEndpoints.getMaterial}/${id}`)
+        const response = await fetch(`${apiEndpoints.getMaterial}/${id}`)
+        const responsePayload = await response.json()
 
-            const responsePayload = await response.json()
+        setLoading(false)
 
-            if (!response.ok) {
-
-            }
-        } catch (err: any) {
-
-        } finally {
-
-        }
+        return responsePayload.data
     }
+
+    return { getMaterials, loading }
 }

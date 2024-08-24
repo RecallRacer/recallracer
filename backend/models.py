@@ -1,5 +1,6 @@
 import uuid
 from flask_mongoengine import MongoEngine
+from datetime import datetime
 
 db = MongoEngine()
 
@@ -23,4 +24,20 @@ class ShortAnswerQuiz(db.EmbeddedDocument):
 
 class Material(db.Document):
     id = db.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = db.StringField(required=True)
+    short_description = db.StringField(required=True)
     materials = db.ListField(db.GenericEmbeddedDocumentField())
+
+class Race(db.Document):
+    id = db.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    race_name = db.StringField(required=True)
+    participants = db.ListField(db.StringField(), required=True)  # List of participant emails
+    start_time = db.DateTimeField(default=datetime.utcnow)
+    end_time = db.DateTimeField()
+    material = db.UUIDField(required=True)  # No primary_key=True here
+    is_active = db.BooleanField(default=True)  # Indicates if the race is still active
+
+    meta = {
+        'collection': 'races',  # Name of the collection in MongoDB
+        'ordering': ['-start_time']  # Default ordering by start time, descending
+    }

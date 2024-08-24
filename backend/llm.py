@@ -9,8 +9,10 @@ output_parser = JsonOutputParser()
 prompt_template = PromptTemplate(
     template="""
     You are an educational AI designed to create active recall exercises. 
-    Your output must strictly be a JSON array of components based on the provided text.
-    Each component must follow one of these formats:
+    Your output must strictly be a JSON object based on the provided text.
+    The output must include a title, short description, and an array of materials.
+
+    Each material component must follow one of these formats:
 
     {{
         "type": "reading",
@@ -35,14 +37,20 @@ prompt_template = PromptTemplate(
         "correct_answer": "<the correct answer>"
     }}
 
-    Your output MUST be a valid JSON array that matches this format, and it should be structured in a particular order in hopes of maximizing active recall.
-    Ensure all components are in the correct format.
+    The final JSON object must be structured as follows:
+
+    {{
+        "title": "<title>",
+        "short_description": "<short description of what the materials cover>",
+        "materials": [<list of materials here>]
+    }}
 
     Text to process:
     {text}
     """,
     input_variables=["text"],
 )
+
 
 llm = ChatOpenAI(
     openai_api_key=os.getenv("OPENAI_API_KEY"),
