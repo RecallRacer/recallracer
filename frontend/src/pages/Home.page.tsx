@@ -22,19 +22,18 @@ export function HomePage() {
     <div className={classes.wrapper}>
       <Container size={700} className={classes.inner}>
         <h1 className={classes.title}>
-          A{' '}
+          Learn{' '}
           <Text component="span" variant="gradient" gradient={{ from: 'blue', to: 'cyan' }} inherit>
             fully featured
           </Text>{' '}
           React components and hooks library
         </h1>
 
-        <Text className={classes.description} color="dimmed">
-          Build fully functional accessible web applications with ease – Mantine includes more than
-          100 customizable components and hooks to cover you in any situation
+        <Text className={`${classes.description} m-10`} color="dimmed">
+          Learn contents of PDFs by letting $app name$'s AI make quizzes, and race your friends to finish the modules the fastest!
         </Text>
 
-        <Group className={classes.controls}>
+        <Group className={`${classes.controls} mt-10`}>
           <Button
             size="xl"
             className={classes.control}
@@ -42,17 +41,6 @@ export function HomePage() {
             gradient={{ from: 'blue', to: 'cyan' }}
           >
             Get started
-          </Button>
-
-          <Button
-            component="a"
-            href="https://github.com/mantinedev/mantine"
-            size="xl"
-            variant="default"
-            className={classes.control}
-            leftSection={<GithubIcon size={20} />}
-          >
-            GitHub
           </Button>
         </Group>
       </Container>
