@@ -7,6 +7,7 @@ import { useIncrementScore } from "@/hooks/useIncrementScore";
 import { useAuth } from "@/authContext";
 import { useGetProgression } from "@/hooks/useGetProgression";
 import { useIncrementProgression } from "@/hooks/useIncrementProgression";
+import { useGetLeaderboard } from "@/hooks/useGetLeaderboard";
 
 const getSingularMaterial = (materials: any, q_number: number) => {
     console.log(q_number)
@@ -79,6 +80,7 @@ export function RacePage() {
     const { incrementProgression } = useIncrementProgression();
     const [material, setMaterial] = useState<any>(null);
     const [allMaterials, setAllMaterials] = useState<any[]>([]);
+    const { getLeaderboard } = useGetLeaderboard()
     const [selectedOption, setSelectedOption] = useState();
     const [hasSubmitted, setHasSubmitted] = useState(false)
     const [progression, setProgression] = useState<any>();
@@ -118,7 +120,6 @@ export function RacePage() {
                 });
                 console.log(currentUser?.email)
                 await incrementScore(m_id as string, currentUser?.email as string)
-                await incrementProgression(m_id as string, currentUser?.email as string)
             } else {
                 notifications.show({
                     title: `Sorry, you answered incorrectly. The correct answer was ${material.correct_answer}`,
@@ -140,8 +141,8 @@ export function RacePage() {
             const singularMat = await getSingularMaterial(responsePayload.materials, parseInt(q_number as string, 10));
             setMaterial(singularMat);
 
-            const resProgression = await getProgression(m_id as string)
-            setProgression(resProgression)
+            const progressionData = await getLeaderboard(m_id as string)
+            setProgression(progressionData.data.progression)
         }
 
         fetchMaterials();

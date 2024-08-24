@@ -91,6 +91,7 @@ def get_material_by_user(usermail):
             })
     return jsonify(materials), 200
 
+
 @app.route('/api/leaderboards', methods=["POST"])
 def init_leaderboard():
     try:
@@ -105,7 +106,6 @@ def init_leaderboard():
         # Fetch the Race document to get the participants
         race = Race.objects(material_id=material_id).first()
         
-        # Debugging statement to check the race object
         if race is None:
             print(f"No Race found for material_id: {material_id}")
             return jsonify({"status": 404, "message": "Race not found"}), 404
@@ -116,13 +116,17 @@ def init_leaderboard():
         if not participants:
             return jsonify({"status": 400, "message": "No participants found in the race"}), 400
 
-        # Initialize players with scores set to 0
+        # Initialize players with scores set to 0, progression set to 0, and is_done set to False
         players = {participant: 0 for participant in participants}
+        progression = {participant: 0 for participant in participants}
+        is_done = {participant: False for participant in participants}
 
         leaderboard = Leaderboard(
             material_id=material_id,
             num_questions=num_questions,
-            players=players
+            players=players,
+            progression=progression,
+            is_done=is_done
         )
         leaderboard.save()
 
@@ -159,19 +163,31 @@ def increment_score(material_id):
         if email not in leaderboard.players:
             return jsonify({"status": 400, "message": "Player not found in leaderboard"}), 400
 
-        # Increment the player's score
+        # Increment the player's score and progression
         leaderboard.players[email] += increment_value
+        leaderboard.progression[email] += 1
 
-        # Re-fetch the document and save again to avoid potential issues
+        # Check if the player has completed all questions
+        if leaderboard.progression[email] >= leaderboard.num_questions:
+            leaderboard.is_done[email] = True
+
+        # Save the updated leaderboard
         refreshed_leaderboard = Leaderboard.objects(id=leaderboard.id).first()
         refreshed_leaderboard.players = leaderboard.players
+        refreshed_leaderboard.progression = leaderboard.progression
+        refreshed_leaderboard.is_done = leaderboard.is_done
         refreshed_leaderboard.save()
 
-        return jsonify({"status": 200, "message": "Score incremented successfully", "data": refreshed_leaderboard.players}), 200
+        return jsonify({"status": 200, "message": "Score incremented successfully", "data": {
+            "players": refreshed_leaderboard.players,
+            "progression": refreshed_leaderboard.progression,
+            "is_done": refreshed_leaderboard.is_done
+        }}), 200
 
     except Exception as e:
         return jsonify({"status": 500, "message": str(e)}), 500
-        
+
+
 @app.route('/api/leaderboards/<string:material_id>', methods=["GET"])
 def get_leaderboard(material_id):
     try:
@@ -186,12 +202,16 @@ def get_leaderboard(material_id):
             "data": {
                 "material_id": leaderboard.material_id,
                 "num_questions": leaderboard.num_questions,
-                "players": leaderboard.players
+                "players": leaderboard.players,
+                "progression": leaderboard.progression,
+                "is_done": leaderboard.is_done
             }
         }), 200
 
     except Exception as e:
         return jsonify({"status": 500, "message": str(e)}), 500
+
+
 
 @app.route('/api/progressions', methods=["POST"])
 def create_progression():

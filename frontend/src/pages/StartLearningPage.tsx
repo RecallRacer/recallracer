@@ -126,7 +126,6 @@ export function StartLearningPage() {
                                     } else {
                                         const responsePayload = await toggleRace(id as string, !raceActive);
                                         await setRaceActive(responsePayload.data.is_active)
-                                        await createProgression(id as string, data.materials.length)
                                         setRefetchRace(true)
                                     }
                                 }}
