@@ -128,8 +128,8 @@ def create_race():
     race.save()
     return jsonify({'race_id': str(race.id)}), 201
 
-@app.route('/api/races/<string:race_id>', methods=["PATCH"])
-def add_participant(race_id):
+@app.route('/api/races/<string:material_id>', methods=["PATCH"])
+def add_player(material_id):
     try:
         data = request.get_json()
         email = data.get("email")
@@ -137,7 +137,7 @@ def add_participant(race_id):
         if not email:
             return jsonify({"status": 400, "message": "Email is required"}), 400
 
-        race = Race.objects(id=race_id).first()
+        race = Race.objects(material_id=material_id).first()
 
         if not race:
             return jsonify({"status": 404, "message": "Race not found"}), 404
@@ -153,52 +153,46 @@ def add_participant(race_id):
     except Exception as e:
         return jsonify({"status": 500, "message": str(e)}), 500
 
-@socketio.on('join-race')
-def handle_join_race(data): 
-    race_id = data['race_id']
-    usermail = data["usermail"]
-    username = data['username']
-    race = Race.objects(id=race_id).first()
-    if race and usermail not in race.participants:
-        race.participants.append(username)
-        race.save()
-        join_room(str(race_id))
-        new_notif = {
-            'race_id': race_id,
-            'notification': f'{username} has joined the race!',
-            'notif_type': 'join'
-        }
-        handle_notification(new_notif)
+@app.route('/api/races/<string:material_id>/participants', methods=["GET"])
+def get_participants(material_id):
+    try:
+        race = Race.objects(material_id=material_id).first()
 
-@socketio.on('leave-race')
-def handle_leave_race(data):
-    race_id = data['race_id']
-    usermail = data['usermail']
-    username = data['username']
+        if not race:
+            return jsonify({"status": 404, "message": "Race not found"}), 404
 
-    race = Race.objects(id=race_id).first()
-    if race and usermail in race.participants:
-        race.participants.remove(usermail)
-        race.save()
-        leave_room(str(race_id))
-        new_notif = {
-            'race_id': race_id,
-            'notification': f'{username} has left the race!',
-            'notif_type': 'leave'
-        }
-        handle_notification(new_notif)
+        return jsonify({"status": 200, "message": "Participants retrieved successfully", "data": race.participants}), 200
 
+    except Exception as e:
+        return jsonify({"status": 500, "message": str(e)}), 500
 
-@socketio.on('notify')
-def handle_notification(data):
-    race_id = data['race_id']
-    notification = data['notification']
-    notif_type = data['notif_type'] # achievement || finished || join || leave
+@app.route('/api/races', methods=['GET'])
+def get_all_races():
+    try:
+        races = Race.objects.all()  
+        races_list = []
 
-    race = Race.objects(id=race_id).first()
-    if race:
-        send(notification, to=str(race_id))
+        for race in races:
+            race_data = {
+                'id': str(race.id),
+                'participants': race.participants,
+                'start_time': race.start_time.isoformat(),
+                'material_id': race.material_id,  # Adjusted to match your model
+                'is_active': race.is_active
+            }
+            races_list.append(race_data)
 
+        return jsonify({
+            'status': 200,
+            'message': 'Successfully retrieved all races!',
+            'data': races_list
+        }), 200
+
+    except Exception as e:
+        return jsonify({
+            'status': 500,
+            'message': str(e),
+        }), 500
 
 if __name__ == '__main__':
     socketio.run(app, debug=True, use_reloader=False)
