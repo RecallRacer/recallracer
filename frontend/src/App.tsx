@@ -1,45 +1,30 @@
-import React from "react";
-import { AuthProvider } from "./authContext";
-import { useRoutes, RouteObject, BrowserRouter } from "react-router-dom";
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
 import { MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
-import Login from "./components/auth/login";
-import Register from "./components/auth/register";
-import Header from "./components/header";
-import Home from "./components/home";
-import { Navbar } from './Navbar';
-import { Router } from './Router';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { AuthProvider } from './authContext';
+import Header from './components/header';
+import { HomePage } from './pages/Home.page';
+import { LearnPage } from './pages/Learn.page';
+import Login from './components/auth/login';
+import Register from './components/auth/register';
 
-const App = () => {
-  const routesArray = [
-    {
-      path: "*",
-      element: <Login />,
-    },
-    {
-      path: "/login",
-      element: <Login />,
-    },
-    {
-      path: "/register",
-      element: <Register />,
-    },
-    {
-      path: "/home",
-      element: <Home />,
-    },
-  ];
-
+export default function App() {
   return (
-  <AuthProvider>
-    <MantineProvider forceColorScheme="light">
-      <Notifications />
-        <Router/>
-    </MantineProvider>
+    <AuthProvider>
+      <MantineProvider forceColorScheme="light">
+        <Notifications />
+        <BrowserRouter>
+          <Header />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/learn" element={<LearnPage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
+        </BrowserRouter>
+      </MantineProvider>
     </AuthProvider>
   );
-};
-
-export default App;
+}

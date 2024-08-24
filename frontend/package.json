@@ -19,7 +19,6 @@
     "storybook:build": "storybook build"
   },
   "dependencies": {
-    "@esbuild/darwin-arm64": "^0.23.1",
     "@mantine/core": "7.11.2",
     "@mantine/dropzone": "^7.12.1",
     "@mantine/hooks": "7.11.2",
