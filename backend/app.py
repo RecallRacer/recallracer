@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_mongoengine import MongoEngine
 from flask_cors import CORS
-from models import ReadingMaterial, MCQQuiz, Material, Race, Leaderboard
+from models import ReadingMaterial, MCQQuiz, Material, Race, Leaderboard, Progression
 from llm import generateLLM
 import json
 import os
@@ -190,6 +190,52 @@ def get_leaderboard(material_id):
                 "material_id": leaderboard.material_id,
                 "num_questions": leaderboard.num_questions,
                 "players": leaderboard.players
+            }
+        }), 200
+
+    except Exception as e:
+        return jsonify({"status": 500, "message": str(e)}), 500
+
+@app.route('/api/progressions', methods=['POST'])
+def create_progression():
+    try:
+        data = request.get_json()
+
+        material_id = data.get('material_id')
+        num_questions = data.get('num_questions', 0)
+        players = data.get('players', {})
+
+        if not material_id:
+            return jsonify({"status": 400, "message": "material_id is required"}), 400
+
+        progression = Progression(
+            material_id=material_id,
+            num_questions=num_questions,
+            players=players
+        )
+        progression.save()
+
+        return jsonify({"status": 201, "message": "Progression created successfully", "data": str(progression.id)}), 201
+
+    except Exception as e:
+        return jsonify({"status": 500, "message": str(e)}), 500
+
+# Get a progression by material_id
+@app.route('/api/progressions/<string:material_id>', methods=['GET'])
+def get_progression(material_id):
+    try:
+        progression = Progression.objects(material_id=material_id).first()
+
+        if not progression:
+            return jsonify({"status": 404, "message": "Progression not found"}), 404
+
+        return jsonify({
+            "status": 200,
+            "data": {
+                "id": str(progression.id),
+                "material_id": progression.material_id,
+                "num_questions": progression.num_questions,
+                "players": progression.players
             }
         }), 200
 

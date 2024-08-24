@@ -91,7 +91,7 @@ export function StartLearningPage() {
                     <Button mt={16} color="red" type="submit">Submit</Button>
                 </form>
             </Modal>
-            <Title className={styles.headerTitle}>Ziptide</Title>
+            <Title className={styles.headerTitle}>RecallRacer</Title>
             <div className={styles.cardContainer}>
                 <Stack>
                     {loading ? (

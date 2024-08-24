@@ -38,7 +38,7 @@ export function LeaderboardPage() {
 
     return (
         <div className={styles.pageContainer}>
-            <Title className={styles.headerTitle}>Ziptide</Title>
+            <Title className={styles.headerTitle}>RecallRacer</Title>
             <Title mt={20} mb={20}>Leaderboard</Title>
             <ResponsiveContainer width="100%" height={300}>
                 <BarChart

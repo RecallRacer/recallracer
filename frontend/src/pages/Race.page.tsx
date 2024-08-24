@@ -140,7 +140,7 @@ export function RacePage() {
 
     return (
         <div className={styles.pageContainer}>
-            <Title className={styles.headerTitle}>Ziptide</Title>
+            <Title className={styles.headerTitle}>RecallRacer</Title>
             <div className={styles.cardContainer}>
                 <Stack>
                     {loading || !material ? (

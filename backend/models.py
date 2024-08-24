@@ -49,3 +49,9 @@ class Leaderboard(db.Document):
     meta = {
         'collection': 'leaderboards',  # Name of the collection in MongoDB
     }
+
+class Progression(db.Document):
+    id = db.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    material_id = db.StringField(required=True)  # ID of the material
+    num_questions = db.IntField(required=True)
+    players = db.MapField(db.IntField(), required=True)
