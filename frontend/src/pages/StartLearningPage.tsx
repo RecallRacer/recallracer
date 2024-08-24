@@ -6,10 +6,12 @@ import styles from './StartLearningPage.module.css';
 import { useAddPlayer } from "@/hooks/useAddPlayer";
 import { useDisclosure } from "@mantine/hooks";
 import { useForm } from '@mantine/form';
+import { useGetPlayers } from "@/hooks/useGetPlayers";
 
 export function StartLearningPage() {
     const { id } = useParams();
     const { getMaterials, loading } = useGetMaterials()
+    const { getPlayers } = useGetPlayers();
     const [opened, { open, close }] = useDisclosure(false);
     const { addPlayer } = useAddPlayer();
     const [data, setData] = useState({
@@ -17,6 +19,9 @@ export function StartLearningPage() {
         short_description: 'Please wait while we load the content.',
         materials: []
     });
+    const [players, setPlayers] = useState<string[]>([])
+    const [refetchMaterials, setRefetchMaterials] = useState(false)
+    const [refetchPlayers, setRefetchPlayers] = useState(false)
 
     const form = useForm({
         mode: 'uncontrolled',
@@ -30,20 +35,35 @@ export function StartLearningPage() {
     });
 
     useEffect(() => {
-        const fetchMaterials = async () => {
-            const responsePayload = await getMaterials(id as string)
-            setData(responsePayload)
+        const fetchAPI = async () => {
+            const materialsPayload = await getMaterials(id as string)
+            setData(materialsPayload)
         }
 
-        fetchMaterials()
-    }, [])
+        fetchAPI()
+        setRefetchMaterials(false)
+    }, [refetchMaterials])
+
+    useEffect(() => {
+        const fetchAPI = async () => {
+            const playersPayload = await getPlayers(id as string)
+            setPlayers(playersPayload)
+        }
+
+        fetchAPI()
+        setRefetchPlayers(false)
+    }, [refetchPlayers])
 
     console.log(data)
 
     return (
         <div className={styles.pageContainer}>
             <Modal opened={opened} onClose={close} title="Add a Player">
-                <form onSubmit={form.onSubmit((values) => addPlayer(id as string, values.email))}>
+                <form onSubmit={form.onSubmit((values) => {
+                    addPlayer(id as string, values.email)
+                    setRefetchPlayers(true)
+                    close()
+                })}>
                     <TextInput
                         withAsterisk
                         label="Email"
@@ -73,7 +93,7 @@ export function StartLearningPage() {
                                 {data.short_description}
                             </Text>
                             <Text size="xl">
-                                <span style={{ fontWeight: "bold" }}>Players:</span> user1, user2
+                                <span style={{ fontWeight: "bold" }}>Players:</span> {players.length === 0 ? "There are currently no players" : players.join(", ")}
                             </Text>
                             <Button onClick={open} size="lg" color="red" variant="outline" loading={loading}>
                                 Invite another player to the study race!

@@ -9,9 +9,7 @@ import os
 
 app = Flask(__name__)
 
-CORS(app, resources={r"/*": {"origins": "*"}})
-
-socketio = SocketIO(app, cors_allowed_origins="*")
+CORS(app)
 
 app.config['MONGODB_SETTINGS'] = {
     'host': os.getenv('MONGO_URI')
@@ -194,5 +192,27 @@ def get_all_races():
             'message': str(e),
         }), 500
 
+@app.route('/api/races/<string:material_id>/toggle', methods=["PATCH"])
+def toggle_race(material_id):
+    try:
+        data = request.get_json()
+        is_active = data.get("is_active")
+
+        if is_active is None:
+            return jsonify({"status": 400, "message": "is_active field is required"}), 400
+
+        race = Race.objects(material_id=material_id).first()
+
+        if not race:
+            return jsonify({"status": 404, "message": "Race not found"}), 404
+
+        race.is_active = is_active
+        race.save()
+
+        return jsonify({"status": 200, "message": "Race status updated successfully", "is_active": race.is_active}), 200
+
+    except Exception as e:
+        return jsonify({"status": 500, "message": str(e)}), 500
+
 if __name__ == '__main__':
-    socketio.run(app, debug=True, use_reloader=False)
+    app.run(debug=True);
