@@ -10,12 +10,14 @@ import { useGetPlayers } from "@/hooks/useGetPlayers";
 import { useToggleRace } from "@/hooks/useToggleRace";
 import { useGetRace } from "@/hooks/useGetRace";
 import { useInitLeaderboard } from "@/hooks/useInitLeaderboard";
+import { useCreateProgression } from "@/hooks/useCreateProgression";
 
 export function StartLearningPage() {
     const { id } = useParams();
     const navigate = useNavigate();
     const { getMaterials, loading } = useGetMaterials()
     const { initLeaderboard } = useInitLeaderboard()
+    const { createProgression } = useCreateProgression();
     const { getPlayers } = useGetPlayers();
     const { toggleRace } = useToggleRace()
     const { getRace } = useGetRace();
@@ -123,7 +125,8 @@ export function StartLearningPage() {
                                         navigate(`/learn/${id}/question/1`)
                                     } else {
                                         const responsePayload = await toggleRace(id as string, !raceActive);
-                                        setRaceActive(responsePayload.data.is_active)
+                                        await setRaceActive(responsePayload.data.is_active)
+                                        await createProgression(id as string, data.materials.length)
                                         setRefetchRace(true)
                                     }
                                 }}

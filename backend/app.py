@@ -14,9 +14,6 @@ app.config['MONGODB_SETTINGS'] = {
 }
 db = MongoEngine(app)
 
-@app.route('/health', methods=['GET'])
-def health_check():
-    return jsonify({'status': '200'})
 @app.route("/api/materials/<string:material_id>", methods=["GET"])
 def get_materials_by_id(material_id):
     try:
@@ -232,6 +229,37 @@ def create_progression():
     except Exception as e:
         return jsonify({"status": 500, "message": str(e)}), 500
 
+@app.route('/api/progression/<string:material_id>/increment', methods=["POST", "OPTIONS"])
+def increment_progression(material_id):
+    if request.method == "OPTIONS":
+        return _build_cors_preflight_response()
+    try:
+        data = request.get_json()
+        email = data.get('email')
+
+        if not email:
+            return jsonify({"status": 400, "message": "Email is required"}), 400
+
+        # Fetch the progression document for the given material_id
+        progression = Progression.objects(material_id=material_id).first()
+
+        if not progression:
+            return jsonify({"status": 404, "message": "Progression not found"}), 404
+
+        if email not in progression.players:
+            return jsonify({"status": 400, "message": "Player not found in progression"}), 400
+
+        # Increment the player's progression
+        progression.players[email] += 1
+
+        # Save the updated progression
+        progression.save()
+
+        return jsonify({"status": 200, "message": "Progression incremented successfully", "data": progression.players}), 200
+
+    except Exception as e:
+        return jsonify({"status": 500, "message": str(e)}), 500
+
 # Get a progression by material_id
 @app.route('/api/progressions/<string:material_id>', methods=['GET'])
 def get_progression(material_id):
@@ -390,6 +418,13 @@ def get_race(material_id):
 
     except Exception as e:
         return jsonify({"status": 500, "message": str(e)}), 500
+
+def _build_cors_preflight_response():
+    response = jsonify({"status": "Preflight successful"})
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add("Access-Control-Allow-Headers", "Content-Type,Authorization")
+    response.headers.add("Access-Control-Allow-Methods", "GET,POST,PATCH,DELETE,OPTIONS")
+    return response
 
 if __name__ == '__main__':
     app.run(debug=True)

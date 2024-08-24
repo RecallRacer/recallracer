@@ -19,27 +19,8 @@ export const useCreateProgression = () => {
 
             const responsePayload = await response.json();
 
-            if (!response.ok) {
-                notifications.show({
-                    title: 'Error',
-                    message: responsePayload.message || 'Failed to create progression.',
-                    color: 'red',
-                });
-            } else {
-                notifications.show({
-                    title: 'Success',
-                    message: 'Progression created successfully!',
-                    color: 'green',
-                });
-            }
-
             return responsePayload;
         } catch (error) {
-            notifications.show({
-                title: 'Network Error',
-                message: 'Please check your connection and try again.',
-                color: 'red',
-            });
             console.error("Network error:", error);
         } finally {
             setLoading(false);

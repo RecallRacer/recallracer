@@ -55,3 +55,7 @@ class Progression(db.Document):
     material_id = db.StringField(required=True)  # ID of the material
     num_questions = db.IntField(required=True)
     players = db.MapField(db.IntField(), required=True)
+
+    meta = {
+        'collection': 'leaderboards',  # Name of the collection in MongoDB
+    }

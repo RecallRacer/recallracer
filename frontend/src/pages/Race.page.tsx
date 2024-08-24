@@ -5,6 +5,8 @@ import styles from './StartLearningPage.module.css';
 import { notifications } from "@mantine/notifications";
 import { useIncrementScore } from "@/hooks/useIncrementScore";
 import { useAuth } from "@/authContext";
+import { useGetProgression } from "@/hooks/useGetProgression";
+import { useIncrementProgression } from "@/hooks/useIncrementProgression";
 
 const getSingularMaterial = (materials: any, q_number: number) => {
     console.log(q_number)
@@ -73,10 +75,13 @@ export function RacePage() {
     const navigate = useNavigate();
     const { currentUser } = useAuth();
     const { getMaterials, loading } = useGetMaterials();
+    const { getProgression } = useGetProgression()
+    const { incrementProgression } = useIncrementProgression();
     const [material, setMaterial] = useState<any>(null);
     const [allMaterials, setAllMaterials] = useState<any[]>([]);
     const [selectedOption, setSelectedOption] = useState();
     const [hasSubmitted, setHasSubmitted] = useState(false)
+    const [progression, setProgression] = useState<any>();
     const { incrementScore } = useIncrementScore()
 
     function goToNextQuestion() {
@@ -113,6 +118,7 @@ export function RacePage() {
                 });
                 console.log(currentUser?.email)
                 await incrementScore(m_id as string, currentUser?.email as string)
+                await incrementProgression(m_id as string, currentUser?.email as string)
             } else {
                 notifications.show({
                     title: `Sorry, you answered incorrectly. The correct answer was ${material.correct_answer}`,
@@ -131,12 +137,17 @@ export function RacePage() {
             const responsePayload = await getMaterials(m_id as string);
             setAllMaterials(responsePayload.materials || []);
 
-            const singularMat = getSingularMaterial(responsePayload.materials, parseInt(q_number as string, 10));
+            const singularMat = await getSingularMaterial(responsePayload.materials, parseInt(q_number as string, 10));
             setMaterial(singularMat);
+
+            const resProgression = await getProgression(m_id as string)
+            setProgression(resProgression)
         }
 
         fetchMaterials();
     }, [m_id, q_number]);
+
+    console.log(progression)
 
     return (
         <div className={styles.pageContainer}>

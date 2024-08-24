@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { apiEndpoints } from '@/config/api';
 import { notifications } from '@mantine/notifications';
 
@@ -22,34 +22,26 @@ export const useGetProgression = () => {
             if (!response.ok) {
                 notifications.show({
                     title: 'Error',
-                    message: responsePayload.message || 'Failed to retrieve progression.',
+                    message: responsePayload.message || 'Failed to fetch progression.',
                     color: 'red',
                 });
-            } else {
-                setProgression(responsePayload.data);
-                notifications.show({
-                    title: 'Success',
-                    message: 'Progression retrieved successfully!',
-                    color: 'green',
-                });
+                return;
             }
 
-            return responsePayload;
+            setProgression(responsePayload.data);
+            return responsePayload.data;
+
         } catch (error) {
             notifications.show({
                 title: 'Network Error',
                 message: 'Please check your connection and try again.',
                 color: 'red',
             });
-            console.error("Network error:", error);
+            console.error('Network error:', error);
         } finally {
             setLoading(false);
         }
     };
-
-    useEffect(() => {
-        // Optional: Can be used to automatically fetch progression on component mount if material_id is known
-    }, []);
 
     return { getProgression, progression, loading };
 };
