@@ -30,10 +30,12 @@ export function StartLearningPage() {
             <div className={styles.cardContainer}>
                 <Stack>
                     {loading ? (
-                        <>
-                            <Title className={styles.title}>Loading your learning materials...</Title>
-                            <Loader color="red" />
-                        </>
+                        <Center>
+                            <Stack align="center">
+                                <Title mb={16} className={styles.title}>Loading your learning materials...</Title>
+                                <Loader color="red" size="xl" />
+                            </Stack>
+                        </Center>
                     ) : (
                         <>
                             <Title mt={24} className={styles.title}>
