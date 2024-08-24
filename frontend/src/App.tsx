@@ -14,7 +14,7 @@ import { StartLearningPage } from './pages/StartLearningPage';
 export default function App() {
   return (
     <AuthProvider>
-      <MantineProvider forceColorScheme="light">
+      <MantineProvider forceColorScheme="dark">
         <Notifications />
         <BrowserRouter>
           <Header />
