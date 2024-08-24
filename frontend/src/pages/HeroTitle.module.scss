@@ -3,48 +3,27 @@ $mantine-breakpoint-sm: 768px;
 .wrapper {
   position: relative;
   width: 100%;
-  height: 100vh;
-  /* Full viewport height */
+  height: 100vh; /* Full viewport height */
   overflow: hidden;
   background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-8));
-  margin: 0;
-  /* Remove any margin */
-  padding: 0;
-  /* Remove any padding */
-}
-
-.splineContainer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  /* Ensure the Spline covers the entire viewport */
-  z-index: -1;
-  /* Send the Spline to the background */
-}
-
-.splineBackground {
-  width: 100%;
-  height: 100%;
+  margin: 0; /* Remove any margin */
+  padding: 0; /* Remove any padding */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .inner {
   position: relative;
   z-index: 1;
-  /* Ensure content stays above the Spline background */
   text-align: center;
-  padding-top: 50vh;
-  /* Adjust the padding for vertical alignment */
-  transform: translateY(-50%);
-  /* Center the content vertically */
-  padding-bottom: 0;
-  /* Remove bottom padding to avoid gap */
-
-  @media (max-width: $mantine-breakpoint-sm) {
-    padding-bottom: 0;
-    padding-top: 8rem;
-  }
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
 }
 
 .title {
@@ -69,6 +48,7 @@ $mantine-breakpoint-sm: 768px;
   /* Adjusted font size */
   color: light-dark(var(--mantine-color-dark-2), var(--mantine-color-gray-0));
   /* Brighter color for smaller text */
+  margin-bottom: var(--mantine-spacing-xl);
 
   @media (max-width: $mantine-breakpoint-sm) {
     font-size: 1.8rem;
@@ -76,19 +56,32 @@ $mantine-breakpoint-sm: 768px;
 }
 
 .controls {
-  margin-top: calc(var(--mantine-spacing-xl) * 2);
-
-  @media (max-width: $mantine-breakpoint-sm) {
-    margin-top: var(--mantine-spacing-xl);
-  }
+  margin-top: calc(var(--mantine-spacing-xl));
+  display: flex;
+  justify-content: center;
 }
 
 .control {
+  border-radius: 20px;
   height: 5.4rem;
-  /* Adjusted control height */
   padding-left: 3.8rem;
   padding-right: 3.8rem;
   margin: 10px;
+  margin-left: 0; /* Adjust margin to avoid pushing the button off-center */
+  background-color: transparent;
+  color: white;
+  border: 2px solid transparent;
+  position: relative;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.6), 0 0 20px rgba(255, 0, 0, 0.6), 0 0 30px rgba(255, 0, 0, 0.6);
+    animation: glow 2s infinite alternate;
+  }
 
   @media (max-width: $mantine-breakpoint-sm) {
     height: 5.4rem;
@@ -98,6 +91,21 @@ $mantine-breakpoint-sm: 768px;
   }
 }
 
-.content {
-  opacity: 0;
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.6), 0 0 20px rgba(255, 0, 0, 0.6), 0 0 30px rgba(255, 0, 0, 0.6);
+    border-color: rgba(255, 0, 0, 0.6);
+  }
+  33% {
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.6), 0 0 20px rgba(0, 255, 0, 0.6), 0 0 30px rgba(0, 255, 0, 0.6);
+    border-color: rgba(0, 255, 0, 0.6);
+  }
+  66% {
+    box-shadow: 0 0 10px rgba(0, 0, 255, 0.6), 0 0 20px rgba(0, 0, 255, 0.6), 0 0 30px rgba(0, 0, 255, 0.6);
+    border-color: rgba(0, 0, 255, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(255, 0, 255, 0.6), 0 0 20px rgba(255, 0, 255, 0.6), 0 0 30px rgba(255, 0, 255, 0.6);
+    border-color: rgba(255, 0, 255, 0.6);
+  }
 }

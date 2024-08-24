@@ -12,12 +12,14 @@ import Register from './components/auth/register';
 import { StartLearningPage } from './pages/StartLearningPage';
 import { RacePage } from './pages/Race.page';
 import { LeaderboardPage } from './pages/Leaderboard.page';
+import { Navbar } from './pages/Navbar';
 
 export default function App() {
   return (
     <AuthProvider>
       <MantineProvider forceColorScheme="dark">
         <Notifications />
+        <Navbar />
         <BrowserRouter>
           <Header />
           <Routes>
