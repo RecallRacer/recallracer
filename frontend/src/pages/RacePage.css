@@ -30,7 +30,7 @@
 .optionButton {
     background-color: #2d89ef;
     color: white;
-    padding: 12px 16px;
+    padding: 16px;
     border: none;
     border-radius: 8px;
     text-align: center;
@@ -56,3 +56,32 @@
     justify-content: center; /* Ensure text is horizontally centered */
 }
 
+.answerForm {
+    height: 100%;
+}
+
+.answerField {
+    border-radius: 5px;
+    padding: 10px;
+    height: 250px;
+    width: 100%;
+    justify-content: flex-start;
+    text-align: left; /* Align text to the left */
+    vertical-align: top; /* Align text to the top */
+    line-height: normal; /* Ensure line height is normal */
+    display: flex; /* Use flexbox to control alignment */
+    align-items: flex-start; /* Align items to the start (top) */
+}
+
+.answerField:focus {
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgb(127, 89, 135);
+    outline: none;
+    transition: 0.3s ease-in-out;
+    text-align: left; /* Align text to the left */
+    vertical-align: top; /* Align text to the top */
+    line-height: normal; /* Ensure line height is normal */
+    display: flex; /* Use flexbox to control alignment */
+    align-items: flex-start; /* Align items to the start (top) */
+}

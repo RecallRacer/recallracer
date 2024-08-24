@@ -1,7 +1,9 @@
 import { useParams } from 'react-router-dom';
 import { Button, Container, Text } from '@mantine/core';
+import { useState } from 'react';
 import classes from './HeroTitle.module.scss';
 import './RacePage.css';
+import { notifications } from '@mantine/notifications';
 
 export function RacePage() {
   const { learnid, quesnumber } = useParams<{ learnid: string; quesnumber: string }>();
@@ -10,9 +12,47 @@ export function RacePage() {
   const points = "20 points";
   const questionType = "mcq";
 
-  const options = ["Option A", "Option B", "Option C", "Option D"];
+  const [answer, setAnswer] = useState('');
+  const [selectedOption, setSelectedOption] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  console.log("RacePage rendered with", { learnid, quesnumber });
+  // Handle submission for open-ended questions
+  const handleSubmitOpenEnded = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+
+    // Simulate form submission (e.g., API call)
+    setTimeout(() => {
+      console.log("Form submitted with answer:", answer);
+      setAnswer(''); // Reset the input field
+      setIsSubmitting(false); // Re-enable the submit button
+    }, 2000); // Simulating a delay
+
+    notifications.show({
+      title: "Submitted answer successfully.",
+      message: "On to the next question!",
+      color: "green",
+    });
+  };
+
+  // Handle submission for MCQ questions
+  const handleSubmitMCQ = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+
+    // Simulate form submission (e.g., API call)
+    setTimeout(() => {
+      console.log("MCQ submitted with selected option:", selectedOption);
+      setSelectedOption(''); // Reset the selected option
+      setIsSubmitting(false); // Re-enable the submit button
+    }, 2000); // Simulating a delay
+
+    notifications.show({
+      title: "Submitted answer successfully.",
+      message: "On to the next question!",
+      color: "green",
+    });
+  };
 
   return (
     <div>
@@ -21,14 +61,45 @@ export function RacePage() {
       <p>Question Number: {quesnumber}</p>
       <Container className="quizContainer">
         <Text className="questionText" style={{ fontSize: '2em' }}>{question}</Text>
-        {questionType === "mcq" && (
-          <div className="optionsGrid">
-            {options.map((option, index) => (
-              <button key={index} className="optionButton">{option}</button>
+        {questionType === "mcq" ? (
+          <form className="optionsGrid" onSubmit={handleSubmitMCQ}>
+            {["Option A", "Option B", "Option C", "Option D"].map((option, index) => (
+              <button
+                key={index}
+                type="button"
+                className={`optionButton ${selectedOption === option ? 'selected' : ''}`}
+                onClick={() => setSelectedOption(option)}
+                disabled={isSubmitting} // Disable the options while submitting
+              >
+                {option}
+              </button>
             ))}
-          </div>
+            <Button
+              className="submitButton"
+              type="submit"
+              disabled={isSubmitting || !selectedOption} // Disable the button if no option is selected or while submitting
+            >
+              {isSubmitting ? "Submitting..." : "Submit"}
+            </Button>
+          </form>
+        ) : (
+          <form className="answerForm" onSubmit={handleSubmitOpenEnded}>
+            <input
+              className="answerField"
+              placeholder='Enter your answer'
+              value={answer}
+              onChange={(e) => setAnswer(e.target.value)}
+              disabled={isSubmitting} // Disable the input while submitting
+            />
+            <Button
+              className="submitButton"
+              type="submit"
+              disabled={isSubmitting} // Disable the button while submitting
+            >
+              {isSubmitting ? "Submitting..." : "Submit"}
+            </Button>
+          </form>
         )}
-        <Button className="submitButton">Submit</Button>
       </Container>
     </div>
   );

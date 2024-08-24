@@ -78,34 +78,34 @@ export function StartLearningPage() {
             <div className={styles.cardContainer}>
                 <Stack>
                     {loading ? (
+                        <>
+                        <Title className={styles.title}>
+                            {data.title}
+                        </Title>
+                        <Text size="xl" className={styles.text}>
+                            {data.short_description}
+                        </Text>
+                        <Text size="xl">
+                            <span style={{ fontWeight: "bold" }}>Players:</span> {players.length === 0 ? "There are currently no players" : players.join(", ")}
+                        </Text>
+                        <Button onClick={open} size="lg" color="red" variant="outline" loading={loading}>
+                            Invite another player to the study race!
+                        </Button>
+                        <Button
+                            variant="gradient"
+                            size="xl"
+                            gradient={{ from: 'maroon', to: 'orange', deg: 90 }}
+                        >
+                            Start the Race!
+                        </Button>
+                    </>
+                    ) : (
                         <Center>
                             <Stack align="center">
                                 <Title mb={16} className={styles.title}>Loading your learning materials...</Title>
                                 <Loader color="red" size="xl" />
                             </Stack>
                         </Center>
-                    ) : (
-                        <>
-                            <Title className={styles.title}>
-                                {data.title}
-                            </Title>
-                            <Text size="xl" className={styles.text}>
-                                {data.short_description}
-                            </Text>
-                            <Text size="xl">
-                                <span style={{ fontWeight: "bold" }}>Players:</span> {players.length === 0 ? "There are currently no players" : players.join(", ")}
-                            </Text>
-                            <Button onClick={open} size="lg" color="red" variant="outline" loading={loading}>
-                                Invite another player to the study race!
-                            </Button>
-                            <Button
-                                variant="gradient"
-                                size="xl"
-                                gradient={{ from: 'maroon', to: 'orange', deg: 90 }}
-                            >
-                                Start the Race!
-                            </Button>
-                        </>
                     )}
                 </Stack>
             </div>
