@@ -1,19 +1,22 @@
 import { useGetMaterials } from "@/hooks/useGetMaterials";
 import { Button, Center, Container, Loader, Modal, Stack, Text, TextInput, Title } from "@mantine/core";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styles from './StartLearningPage.module.css';
 import { useAddPlayer } from "@/hooks/useAddPlayer";
 import { useDisclosure, useToggle } from "@mantine/hooks";
 import { useForm } from '@mantine/form';
 import { useGetPlayers } from "@/hooks/useGetPlayers";
 import { useToggleRace } from "@/hooks/useToggleRace";
+import { useGetRace } from "@/hooks/useGetRace";
 
 export function StartLearningPage() {
     const { id } = useParams();
+    const navigate = useNavigate();
     const { getMaterials, loading } = useGetMaterials()
     const { getPlayers } = useGetPlayers();
     const { toggleRace } = useToggleRace()
+    const { getRace } = useGetRace();
     const [opened, { open, close }] = useDisclosure(false);
     const { addPlayer } = useAddPlayer();
     const [data, setData] = useState({
@@ -24,6 +27,7 @@ export function StartLearningPage() {
     const [players, setPlayers] = useState<string[]>([])
     const [refetchMaterials, setRefetchMaterials] = useState(false)
     const [refetchPlayers, setRefetchPlayers] = useState(false)
+    const [refetchRace, setRefetchRace] = useState(false)
     const [raceActive, setRaceActive] = useState(false)
 
     const form = useForm({
@@ -57,7 +61,15 @@ export function StartLearningPage() {
         setRefetchPlayers(false)
     }, [refetchPlayers])
 
+    useEffect(() => {
+        const fetchAPI = async () => {
+            const racePayload = await getRace(id as string)
+            setRaceActive(racePayload.is_active)
+        }
 
+        fetchAPI()
+        setRefetchRace(false)
+    }, [refetchRace])
 
     return (
         <div className={styles.pageContainer}>
@@ -98,20 +110,24 @@ export function StartLearningPage() {
                             <Text size="xl">
                                 <span style={{ fontWeight: "bold" }}>Players:</span> {players.length === 0 ? "There are currently no players" : players.join(", ")}
                             </Text>
-                            <Button onClick={open} size="lg" color="red" variant="outline" loading={loading}>
+                            <Button onClick={open} size="lg" color="gray" variant="outline" loading={loading}>
                                 Invite another player to the study race!
                             </Button>
                             <Button
-                                disabled={raceActive}
                                 variant="gradient"
                                 size="xl"
-                                gradient={{ from: 'maroon', to: 'orange', deg: 90 }}
+                                gradient={!raceActive ? { from: 'maroon', to: 'orange', deg: 90 } : { from: 'orange', to: 'yellow', deg: 90 }}
                                 onClick={async () => {
-                                    const responsePayload = await toggleRace(id as string, !raceActive);
-                                    setRaceActive(responsePayload.data.is_active)
+                                    if (raceActive) {
+                                        navigate(`/learn/${id}/question/1`)
+                                    } else {
+                                        const responsePayload = await toggleRace(id as string, !raceActive);
+                                        setRaceActive(responsePayload.data.is_active)
+                                        setRefetchRace(true)
+                                    }
                                 }}
                             >
-                                {raceActive ? "Race Started" : "Start Racing"}
+                                {raceActive ? "Click here to start learning!" : "Start Racing"}
                             </Button>
                         </>
                     )}

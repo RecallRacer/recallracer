@@ -47,7 +47,8 @@ def create_materials():
     materials_data = generated_output.get("materials", [])
 
     mongo_materials = []
-    for item in materials_data:
+    for idx, item in enumerate(materials_data, start=1):  # Start index from 1
+        item['id'] = idx  # Assign the index as the id
         if item["type"] == "reading":
             mongo_materials.append(ReadingMaterial(**item))
         elif item["type"] == "mcq_quiz":
@@ -122,7 +123,7 @@ def create_race():
         print(f"{material_id} is of type {type(material_id)}")
         return jsonify({"error": "material_id must be a string"}), 400
 
-    race = Race(participants=[email], material_id=material_id)
+    race = Race(participants=[email], material_id=material_id, is_active=False)
     race.save()
     return jsonify({'race_id': str(race.id)}), 201
 

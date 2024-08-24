@@ -1,0 +1,36 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 16px;
+    z-index: 1000;
+    /* Ensure it's on top */
+}
+
+.userInfo {
+    font-size: 1.25rem;
+    font-weight: 500;
+    background-color: #444;
+    /* Lighter gray background */
+    color: white;
+    /* White text for contrast */
+    padding: 8px 16px;
+    /* Padding around the text */
+    border-radius: 8px;
+    /* Rounded corners */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow */
+    cursor: pointer;
+    /* Pointer cursor for clickable effect */
+    transition: background-color 0.3s ease;
+    /* Smooth transition */
+    display: flex;
+    /* Enable Flexbox */
+    align-items: center;
+    /* Center items vertically */
+}
+
+.userInfo:hover {
+    background-color: #555;
+    /* Slightly lighter on hover */
+}

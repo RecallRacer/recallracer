@@ -38,7 +38,7 @@ const Login: React.FC = () => {
 
     return (
         <div>
-            {userLoggedIn && (<Navigate to={'/home'} replace={true} />)}
+            {userLoggedIn && (<Navigate to={'/learn'} replace={true} />)}
 
             <main style={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <div style={{ width: '24rem', color: '#4B5563', padding: '1rem', boxShadow: '0px 10px 15px -3px rgba(0, 0, 0, 0.1)', borderRadius: '1rem', border: '1px solid #E5E7EB', backgroundColor: '#2A2A2A' }}>
@@ -60,7 +60,7 @@ const Login: React.FC = () => {
                                 style={{ width: '100%', marginTop: '0.5rem', padding: '0.5rem 0.75rem', color: '#6B7280', backgroundColor: 'transparent', border: '1px solid #D1D5DB', borderRadius: '0.5rem', outline: 'none', transition: 'border-color 0.3s' }}
                             />
                         </div>
-<div style={{ marginTop: '1.25rem' }}>
+                        <div style={{ marginTop: '1.25rem' }}>
                             <label style={{ fontSize: '0.875rem', fontWeight: '700', color: 'white' }}>
                                 Password
                             </label>
@@ -90,7 +90,7 @@ const Login: React.FC = () => {
                             {isSigningIn ? 'Signing In...' : 'Sign In'}
                         </button>
                     </form>
-                    <p style={{ textAlign: 'center', color: "white",  fontSize: '0.875rem', marginTop: '1rem' }}>Don't have an account? <Link to={'/register'} style={{ textDecoration: 'underline', fontWeight: '700' }}>Sign up</Link></p>
+                    <p style={{ textAlign: 'center', color: "white", fontSize: '0.875rem', marginTop: '1rem' }}>Don't have an account? <Link to={'/register'} style={{ textDecoration: 'underline', fontWeight: '700' }}>Sign up</Link></p>
                     <div style={{ display: 'flex', alignItems: 'center', margin: '1rem 0' }}>
                         <div style={{ flexGrow: 1, height: '2px', backgroundColor: '#D1D5DB' }}></div>
                         <div style={{ fontSize: '0.875rem', fontWeight: '700', padding: '0 0.5rem' }}>OR</div>

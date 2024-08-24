@@ -29,7 +29,7 @@ const Register: React.FC = () => {
 
       try {
         await doCreateUserWithEmailAndPassword(email, password, displayName); // Pass displayName
-        navigate('/home');
+        navigate('/learn');
       } catch (error) {
         setErrorMessage("Registration failed. Please try again.");
         setIsRegistering(false);
@@ -39,7 +39,7 @@ const Register: React.FC = () => {
 
   return (
     <>
-      {userLoggedIn && <Navigate to={'/home'} replace={true} />}
+      {userLoggedIn && <Navigate to={'/learn'} replace={true} />}
 
       <main style={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <div style={{ width: '24rem', color: '#4B5563', padding: '1rem', boxShadow: '0px 10px 15px -3px rgba(0, 0, 0, 0.1)', borderRadius: '1rem', border: '1px solid #E5E7EB', backgroundColor: '#2A2A2A' }}>
@@ -160,7 +160,7 @@ const Register: React.FC = () => {
             >
               {isRegistering ? 'Signing Up...' : 'Sign Up'}
             </button>
-            <div style={{ fontSize: '0.875rem', textAlign: 'center', color : "white" }}>
+            <div style={{ fontSize: '0.875rem', textAlign: 'center', color: "white" }}>
               Already have an account?{' '}
               <Link to={'/login'} style={{ textDecoration: 'underline', fontWeight: '700' }}>
                 Continue

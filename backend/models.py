@@ -5,19 +5,19 @@ from datetime import datetime
 db = MongoEngine()
 
 class ReadingMaterial(db.EmbeddedDocument):
-    id = db.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = db.IntField(primary_key=True, required=True)
     type = db.StringField(required=True, default="reading")
     material = db.StringField(required=True)
 
 class MCQQuiz(db.EmbeddedDocument):
-    id = db.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = db.IntField(primary_key=True, required=True)
     type = db.StringField(required=True, default="mcq_quiz")
     question = db.StringField(required=True)
     options = db.MapField(db.StringField(), required=True)
     correct_answer = db.StringField(required=True)
 
 class ShortAnswerQuiz(db.EmbeddedDocument):
-    id = db.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = db.IntField(primary_key=True, required=True)
     type = db.StringField(required=True, default="short_answer_quiz")
     question = db.StringField(required=True)
     correct_answer = db.StringField(required=True)
@@ -33,7 +33,7 @@ class Race(db.Document):
     participants = db.ListField(db.StringField(), required=True)  # List of participant emails
     start_time = db.DateTimeField(default=datetime.utcnow)
     material_id = db.StringField(required=True)  # No primary_key=True here
-    is_active = db.BooleanField(default=True)  # Indicates if the race is still active
+    is_active = db.BooleanField(default=False)  # Indicates if the race is still active
 
     meta = {
         'collection': 'races',  # Name of the collection in MongoDB

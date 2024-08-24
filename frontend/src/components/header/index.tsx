@@ -2,6 +2,8 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../authContext";
 import { doSignOut } from "../../firebase/auth";
+import styles from "./Header.module.css";
+import { MdLogout } from "react-icons/md";
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -10,18 +12,17 @@ const Header: React.FC = () => {
   return (
     <>
       {userLoggedIn ? (
-        <nav className="">
-                 <div className='text-2xl font-bold pt-14'>Hello {currentUser?.displayName ? currentUser?.providerData[0].displayName : currentUser?.email}, you are now logged in.</div>
-          <button
+        <nav className={styles.navbar}>
+          <span
             onClick={() => {
               doSignOut().then(() => {
                 navigate("/login");
               });
             }}
-            className="text-sm text-blue-600 underline"
+            className={styles.userInfo}
           >
-            Logout
-          </button>
+            <MdLogout size={22} />&nbsp;Logout
+          </span>
         </nav>
       ) : (
         <></>
@@ -29,4 +30,5 @@ const Header: React.FC = () => {
     </>
   );
 };
+
 export default Header;

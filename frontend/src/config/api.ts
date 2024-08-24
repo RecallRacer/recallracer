@@ -6,4 +6,6 @@ export const apiEndpoints = {
   addPlayer: `${backendUrl}/api/races`,
   getPlayers: `${backendUrl}/api/races`,
   toggleRace: `${backendUrl}/api/races`,
+  getRace: `${backendUrl}/api/races`,
+  createRace: `${backendUrl}/api/races`,
 };

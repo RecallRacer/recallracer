@@ -20,11 +20,19 @@ export const useToggleRace = () => {
                 "color": "red",
             })
         } else {
-            notifications.show({
-                "title": `The race has been started!`,
-                "message": "Go go go! Learn as fast as you possibly can!",
-                "color": "green",
-            })
+            if (is_active) {
+                notifications.show({
+                    "title": `The race has been started!`,
+                    "message": "Go go go! Learn as fast as you possibly can!",
+                    "color": "green",
+                })
+            } else {
+                notifications.show({
+                    "title": `The race has been stopped!`,
+                    "message": "You have stopped the race.",
+                    "color": "green",
+                })
+            }
         }
 
         return responsePayload;
