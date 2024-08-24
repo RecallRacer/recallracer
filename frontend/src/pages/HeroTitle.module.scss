@@ -15,7 +15,7 @@ $mantine-breakpoint-sm: 768px;
 
 .inner {
   position: relative;
-  z-index: 1;
+  z-index: 1; /* Ensure content stays above the Spline background */
   text-align: center;
   padding: 0;
   display: flex;
@@ -79,7 +79,7 @@ $mantine-breakpoint-sm: 768px;
 
   &:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 10px rgba(255, 0, 0, 0.6), 0 0 20px rgba(255, 0, 0, 0.6), 0 0 30px rgba(255, 0, 0, 0.6);
+    box-shadow: 0 0 10px rgba(255, 69, 0, 0.6), 0 0 20px rgba(255, 69, 0, 0.6), 0 0 30px rgba(255, 69, 0, 0.6);
     animation: glow 2s infinite alternate;
   }
 
@@ -93,19 +93,15 @@ $mantine-breakpoint-sm: 768px;
 
 @keyframes glow {
   0% {
-    box-shadow: 0 0 10px rgba(255, 0, 0, 0.6), 0 0 20px rgba(255, 0, 0, 0.6), 0 0 30px rgba(255, 0, 0, 0.6);
-    border-color: rgba(255, 0, 0, 0.6);
+    box-shadow: 0 0 10px rgba(255, 69, 0, 0.6), 0 0 20px rgba(255, 69, 0, 0.6), 0 0 30px rgba(255, 69, 0, 0.6);
+    border-color: rgba(255, 69, 0, 0.6); /* Orange Red */
   }
-  33% {
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.6), 0 0 20px rgba(0, 255, 0, 0.6), 0 0 30px rgba(0, 255, 0, 0.6);
-    border-color: rgba(0, 255, 0, 0.6);
-  }
-  66% {
-    box-shadow: 0 0 10px rgba(0, 0, 255, 0.6), 0 0 20px rgba(0, 0, 255, 0.6), 0 0 30px rgba(0, 0, 255, 0.6);
-    border-color: rgba(0, 0, 255, 0.6);
+  50% {
+    box-shadow: 0 0 10px rgba(255, 140, 0, 0.6), 0 0 20px rgba(255, 140, 0, 0.6), 0 0 30px rgba(255, 140, 0, 0.6);
+    border-color: rgba(255, 140, 0, 0.6); /* Dark Orange */
   }
   100% {
-    box-shadow: 0 0 10px rgba(255, 0, 255, 0.6), 0 0 20px rgba(255, 0, 255, 0.6), 0 0 30px rgba(255, 0, 255, 0.6);
-    border-color: rgba(255, 0, 255, 0.6);
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.6), 0 0 20px rgba(255, 0, 0, 0.6), 0 0 30px rgba(255, 0, 0, 0.6);
+    border-color: rgba(255, 0, 0, 0.6); /* Red */
   }
 }
