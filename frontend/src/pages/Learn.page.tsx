@@ -1,7 +1,8 @@
-import { Center, Code, Stack, Text, Title } from '@mantine/core';
+import { Center, Loader, Stack, Text, Title } from '@mantine/core';
 import { Input } from '@mantine/core';
 import { useState } from 'react';
 import pdfToText from 'react-pdftotext'
+import { notifications } from '@mantine/notifications';
 
 export function LearnPage() {
     const [extractedText, setExtractedText] = useState<string | null>(null);
@@ -11,15 +12,28 @@ export function LearnPage() {
         const file = event.target.files[0]
         setLoading(true);
         pdfToText(file)
-            .then(text => setExtractedText(text))
-            .catch(error => setError(error))
+            .then(text => {
+                notifications.show({
+                    title: "We have successfully parsed your PDF!",
+                    message: "Please wait as we generate learning materials for you!",
+                    color: "green",
+                })
+                setExtractedText(text)
+            })
+            .catch((error) =>
+                notifications.show({
+                    title: "Failed to parse PDF..",
+                    message: error,
+                    color: "red"
+                }))
         setLoading(false);
     }
 
     return (
         <>
-            <Center>
+            <Center pt={4}>
                 <Stack>
+                    {loading ? <Loader color="blue" /> : ""}
                     {extractedText === null ?
                         <>
                             <Title>Start Learning</Title>
@@ -30,7 +44,7 @@ export function LearnPage() {
                         </>
                         :
                         <>
-                            <Title>Test</Title>
+                            <Title>Generating content...</Title>
                         </>
                     }
                 </Stack>
