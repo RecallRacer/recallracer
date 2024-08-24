@@ -1,0 +1,21 @@
+.wrapper {
+    position: relative;
+    margin-bottom: 30rem;  // Use rem directly as a unit
+  }
+  
+  .dropzone {
+    border-width: 1rem;  // Use rem directly as a unit
+    padding-bottom: 50rem;  // Use rem directly as a unit
+  }
+  
+  .icon {
+    color: light-dark(var(--mantine-color-gray-4), var(--mantine-color-dark-3));
+  }
+  
+  .control {
+    position: absolute;
+    width: 250rem;  // Use rem directly as a unit
+    left: calc(50% - 125rem);  // Use rem directly as a unit
+    bottom: -20rem;  // Use rem directly as a unit
+  }
+  

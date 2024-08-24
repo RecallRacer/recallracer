@@ -3,6 +3,7 @@ import { Input } from '@mantine/core';
 import { useState } from 'react';
 import pdfToText from 'react-pdftotext'
 import { notifications } from '@mantine/notifications';
+import { DropzoneButton } from '@/components/DropzoneButton';
 
 export function LearnPage() {
     const [extractedText, setExtractedText] = useState<string | null>(null);
@@ -40,7 +41,8 @@ export function LearnPage() {
                             <Text>
                                 Upload a PDF and we will generate a sequence of content designed to help you with active recall.
                             </Text>
-                            <Input type="file" accept="application/pdf" onChange={extractText} />
+                            {/* <Input type="file" accept="application/pdf" onChange={extractText} /> */}
+                            <DropzoneButton onDrop={extractText}/>
                         </>
                         :
                         <>
