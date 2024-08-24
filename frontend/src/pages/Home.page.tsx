@@ -4,7 +4,7 @@ import { useHealthCheck } from '@/hooks/useHealthCheck';
 
 import { Container, Text, Button, Group } from '@mantine/core';
 import { GithubIcon } from '@mantinex/dev-icons';
-import classes from '../HeroTitle.module.scss';
+import classes from './HeroTitle.module.scss';
 
 export function HomePage() {
   const { healthCheck } = useHealthCheck();

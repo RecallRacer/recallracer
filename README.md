@@ -1,5 +1,7 @@
 # Quickstart
 
+To start the frontend, execute
+
 ```
 make serve-frontend
 ```
