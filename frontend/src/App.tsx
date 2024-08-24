@@ -10,6 +10,7 @@ import { LearnPage } from './pages/Learn.page';
 import Login from './components/auth/login';
 import Register from './components/auth/register';
 import { StartLearningPage } from './pages/StartLearningPage';
+import { Mcq } from './pages/Mcq.page';
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
             <Route path="/learn/:id" element={<StartLearningPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/learn/:m_id/question/:q_id" element={< Mcq />} />
           </Routes>
         </BrowserRouter>
       </MantineProvider>
