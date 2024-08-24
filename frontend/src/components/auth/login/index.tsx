@@ -41,15 +41,15 @@ const Login: React.FC = () => {
             {userLoggedIn && (<Navigate to={'/home'} replace={true} />)}
 
             <main style={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <div style={{ width: '24rem', color: '#4B5563', padding: '1rem', boxShadow: '0px 10px 15px -3px rgba(0, 0, 0, 0.1)', borderRadius: '1rem', border: '1px solid #E5E7EB', backgroundColor: '#FFFFFF' }}>
+                <div style={{ width: '24rem', color: '#4B5563', padding: '1rem', boxShadow: '0px 10px 15px -3px rgba(0, 0, 0, 0.1)', borderRadius: '1rem', border: '1px solid #E5E7EB', backgroundColor: '#2A2A2A' }}>
                     <div style={{ textAlign: 'center' }}>
                         <div style={{ marginTop: '0.5rem' }}>
-                            <h3 style={{ color: '#1F2937', fontSize: '1.5rem', fontWeight: '600' }}>Welcome Back</h3>
+                            <h3 style={{ color: 'white', fontSize: '1.5rem', fontWeight: '600' }}>Welcome Back</h3>
                         </div>
                     </div>
                     <form onSubmit={onSubmit} style={{ marginTop: '1.25rem' }}>
                         <div>
-                            <label style={{ fontSize: '0.875rem', fontWeight: '700', color: '#4B5563' }}>
+                            <label style={{ fontSize: '0.875rem', fontWeight: '700', color: 'white' }}>
                                 Email
                             </label>
                             <input
@@ -61,7 +61,7 @@ const Login: React.FC = () => {
                             />
                         </div>
 <div style={{ marginTop: '1.25rem' }}>
-                            <label style={{ fontSize: '0.875rem', fontWeight: '700', color: '#4B5563' }}>
+                            <label style={{ fontSize: '0.875rem', fontWeight: '700', color: 'white' }}>
                                 Password
                             </label>
                             <input
@@ -90,7 +90,7 @@ const Login: React.FC = () => {
                             {isSigningIn ? 'Signing In...' : 'Sign In'}
                         </button>
                     </form>
-                    <p style={{ textAlign: 'center', fontSize: '0.875rem', marginTop: '1rem' }}>Don't have an account? <Link to={'/register'} style={{ textDecoration: 'underline', fontWeight: '700' }}>Sign up</Link></p>
+                    <p style={{ textAlign: 'center', color: "white",  fontSize: '0.875rem', marginTop: '1rem' }}>Don't have an account? <Link to={'/register'} style={{ textDecoration: 'underline', fontWeight: '700' }}>Sign up</Link></p>
                     <div style={{ display: 'flex', alignItems: 'center', margin: '1rem 0' }}>
                         <div style={{ flexGrow: 1, height: '2px', backgroundColor: '#D1D5DB' }}></div>
                         <div style={{ fontSize: '0.875rem', fontWeight: '700', padding: '0 0.5rem' }}>OR</div>
@@ -109,9 +109,9 @@ const Login: React.FC = () => {
                             border: '1px solid #D1D5DB',
                             borderRadius: '0.5rem',
                             fontSize: '0.875rem',
-fontWeight: '500',
+                            fontWeight: '500',
                             cursor: isSigningIn ? 'not-allowed' : 'pointer',
-                            backgroundColor: isSigningIn ? '#FFFFFF' : '#F9FAFB',
+                            backgroundColor: isSigningIn ? '#2A2A2A' : 'rgb(199, 10, 170)',
                             transition: 'background-color 0.3s'
                         }}>
                         <svg style={{ width: '1.25rem', height: '1.25rem' }} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
