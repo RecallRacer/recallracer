@@ -11,7 +11,7 @@ const Header: React.FC = () => {
     <>
       {userLoggedIn ? (
         <nav className="">
-                  <div className='text-2xl font-bold pt-14'>Hello {currentUser?.displayName ? currentUser.displayName : currentUser?.email}, you are now logged in.</div>
+                 <div className='text-2xl font-bold pt-14'>Hello {currentUser?.displayName ? currentUser?.providerData[0].displayName : currentUser?.email}, you are now logged in.</div>
           <button
             onClick={() => {
               doSignOut().then(() => {
