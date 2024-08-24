@@ -1,58 +1,33 @@
 $mantine-breakpoint-sm: 768px;
 
 .wrapper {
-  position: relative;
-  width: 100%;
-  height: 100vh; /* Full viewport height */
-  overflow: hidden;
-  background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-8));
-  margin: 0; /* Remove any margin */
-  padding: 0; /* Remove any padding */
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding-top: 50px; // Ensures some space at the top
+  animation: zoomIn 1s ease forwards;
+}
+  
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .inner {
-  position: relative;
-  z-index: 1; /* Ensure content stays above the Spline background */
   text-align: center;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  max-width: 800px;
 }
 
 .title {
-  font-family: Greycliff CF, var(--mantine-font-family);
-  font-size: 3.5rem;
-  /* Adjusted font size */
-  font-weight: 900;
-  line-height: 1.1;
   margin: 0;
-  padding: 0;
-  color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
-
-  @media (max-width: $mantine-breakpoint-sm) {
-    font-size: 3.5rem;
-    line-height: 1.2;
-  }
-}
-
-.description {
-  margin-top: var(--mantine-spacing-xl);
-  font-size: 2.4rem;
-  /* Adjusted font size */
-  color: light-dark(var(--mantine-color-dark-2), var(--mantine-color-gray-0));
-  /* Brighter color for smaller text */
-  margin-bottom: var(--mantine-spacing-xl);
-
-  @media (max-width: $mantine-breakpoint-sm) {
-    font-size: 1.8rem;
-  }
+  font-weight: 700;
 }
 
 .controls {

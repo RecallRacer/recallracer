@@ -5,6 +5,9 @@ import styles from './StartLearningPage.module.css';
 import { notifications } from "@mantine/notifications";
 import { useIncrementScore } from "@/hooks/useIncrementScore";
 import { useAuth } from "@/authContext";
+import { useGetProgression } from "@/hooks/useGetProgression";
+import { useIncrementProgression } from "@/hooks/useIncrementProgression";
+import { useGetLeaderboard } from "@/hooks/useGetLeaderboard";
 
 const getSingularMaterial = (materials: any, q_number: number) => {
     console.log(q_number)
@@ -73,10 +76,14 @@ export function RacePage() {
     const navigate = useNavigate();
     const { currentUser } = useAuth();
     const { getMaterials, loading } = useGetMaterials();
+    const { getProgression } = useGetProgression()
+    const { incrementProgression } = useIncrementProgression();
     const [material, setMaterial] = useState<any>(null);
     const [allMaterials, setAllMaterials] = useState<any[]>([]);
+    const { getLeaderboard } = useGetLeaderboard()
     const [selectedOption, setSelectedOption] = useState();
     const [hasSubmitted, setHasSubmitted] = useState(false)
+    const [progression, setProgression] = useState<any>();
     const { incrementScore } = useIncrementScore()
 
     function goToNextQuestion() {
@@ -131,16 +138,21 @@ export function RacePage() {
             const responsePayload = await getMaterials(m_id as string);
             setAllMaterials(responsePayload.materials || []);
 
-            const singularMat = getSingularMaterial(responsePayload.materials, parseInt(q_number as string, 10));
+            const singularMat = await getSingularMaterial(responsePayload.materials, parseInt(q_number as string, 10));
             setMaterial(singularMat);
+
+            const progressionData = await getLeaderboard(m_id as string)
+            setProgression(progressionData.data.progression)
         }
 
         fetchMaterials();
     }, [m_id, q_number]);
 
+    console.log(progression)
+
     return (
         <div className={styles.pageContainer}>
-            <Title className={styles.headerTitle}>Ziptide</Title>
+            <Title className={styles.headerTitle}>RecallRacer</Title>
             <div className={styles.cardContainer}>
                 <Stack>
                     {loading || !material ? (

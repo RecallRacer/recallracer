@@ -53,7 +53,7 @@ export function LearnPage() {
         <Container>
             <Center pt={50}>
                 <Stack align="center">
-                    <Title className={styles.headerTitle}>Ziptide</Title>
+                    <Title className={styles.headerTitle}>RecallRacer</Title>
                     {loading ? <>
                         <Title className={styles.loading} mt={30} mb={40} />
                         <span className={styles.loader}></span>

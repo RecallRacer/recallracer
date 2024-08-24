@@ -45,6 +45,18 @@ class Leaderboard(db.Document):
     material_id = db.StringField(required=True)  # ID of the material
     num_questions = db.IntField(required=True)  # Total number of questions
     players = db.MapField(db.IntField(), required=True)  # Mapping of player emails to their scores
+    progression = db.MapField(db.IntField(), required=True)
+    is_done = db.MapField(db.BooleanField(), required=True)
+
+    meta = {
+        'collection': 'leaderboards',  # Name of the collection in MongoDB
+    }
+
+class Progression(db.Document):
+    id = db.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    material_id = db.StringField(required=True)  # ID of the material
+    num_questions = db.IntField(required=True)
+    players = db.MapField(db.IntField(), required=True)
 
     meta = {
         'collection': 'leaderboards',  # Name of the collection in MongoDB

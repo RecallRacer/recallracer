@@ -41,15 +41,15 @@ const Login: React.FC = () => {
             {userLoggedIn && (<Navigate to={'/learn'} replace={true} />)}
 
             <main style={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <div style={{ width: '24rem', color: '#4B5563', padding: '1rem', boxShadow: '0px 10px 15px -3px rgba(0, 0, 0, 0.1)', borderRadius: '1rem', border: '1px solid #E5E7EB', backgroundColor: '#2A2A2A' }}>
+                <div style={{ width: '20rem', color: '#FFF', padding: '1.5rem', boxShadow: '0px 10px 15px rgba(0, 0, 0, 0.5)', borderRadius: '0.75rem', backgroundColor: '#1A1A1A' }}>
                     <div style={{ textAlign: 'center' }}>
                         <div style={{ marginTop: '0.5rem' }}>
-                            <h3 style={{ color: 'white', fontSize: '1.5rem', fontWeight: '600' }}>Welcome Back</h3>
+                            <h3 style={{ color: '#B22222', fontSize: '1.5rem', fontWeight: '600' }}>Welcome Back</h3>
                         </div>
                     </div>
                     <form onSubmit={onSubmit} style={{ marginTop: '1.25rem' }}>
                         <div>
-                            <label style={{ fontSize: '0.875rem', fontWeight: '700', color: 'white' }}>
+                            <label style={{ fontSize: '0.875rem', fontWeight: '700', color: '#FFF' }}>
                                 Email
                             </label>
                             <input
@@ -57,11 +57,11 @@ const Login: React.FC = () => {
                                 autoComplete='email'
                                 required
                                 value={email} onChange={(e) => { setEmail(e.target.value) }}
-                                style={{ width: '100%', marginTop: '0.5rem', padding: '0.5rem 0.75rem', color: '#6B7280', backgroundColor: 'transparent', border: '1px solid #D1D5DB', borderRadius: '0.5rem', outline: 'none', transition: 'border-color 0.3s' }}
+                                style={{ width: '100%', marginTop: '0.5rem', padding: '0.5rem 0.75rem', color: '#FFF', backgroundColor: '#333', border: 'none', borderRadius: '0.5rem', outline: 'none', transition: 'background-color 0.3s, transform 0.3s', boxShadow: 'inset 0 0 5px rgba(178, 34, 34, 0.5)' }}
                             />
                         </div>
                         <div style={{ marginTop: '1.25rem' }}>
-                            <label style={{ fontSize: '0.875rem', fontWeight: '700', color: 'white' }}>
+                            <label style={{ fontSize: '0.875rem', fontWeight: '700', color: '#FFF' }}>
                                 Password
                             </label>
                             <input
@@ -69,7 +69,7 @@ const Login: React.FC = () => {
                                 autoComplete='current-password'
                                 required
                                 value={password} onChange={(e) => { setPassword(e.target.value) }}
-                                style={{ width: '100%', marginTop: '0.5rem', padding: '0.5rem 0.75rem', color: '#6B7280', backgroundColor: 'transparent', border: '1px solid #D1D5DB', borderRadius: '0.5rem', outline: 'none', transition: 'border-color 0.3s' }}
+                                style={{ width: '100%', marginTop: '0.5rem', padding: '0.5rem 0.75rem', color: '#FFF', backgroundColor: '#333', border: 'none', borderRadius: '0.5rem', outline: 'none', transition: 'background-color 0.3s, transform 0.3s', boxShadow: 'inset 0 0 5px rgba(178, 34, 34, 0.5)' }}
                             />
                         </div>
 
@@ -79,22 +79,24 @@ const Login: React.FC = () => {
                             style={{
                                 width: '100%',
                                 padding: '0.5rem 1rem',
-                                color: '#FFFFFF',
+                                color: '#FFF',
                                 fontWeight: '500',
                                 borderRadius: '0.5rem',
-                                backgroundColor: isSigningIn ? '#D1D5DB' : '#4F46E5',
+                                backgroundColor: isSigningIn ? '#444' : '#B22222',
                                 cursor: isSigningIn ? 'not-allowed' : 'pointer',
-                                transition: 'background-color 0.3s, box-shadow 0.3s'
+                                transition: 'background-color 0.3s, transform 0.3s',
+                                boxShadow: '0px 4px 10px rgba(178, 34, 34, 0.4)',
+                                transform: isSigningIn ? 'scale(1)' : 'scale(1.02)'
                             }}
                         >
                             {isSigningIn ? 'Signing In...' : 'Sign In'}
                         </button>
                     </form>
-                    <p style={{ textAlign: 'center', color: "white", fontSize: '0.875rem', marginTop: '1rem' }}>Don't have an account? <Link to={'/register'} style={{ textDecoration: 'underline', fontWeight: '700' }}>Sign up</Link></p>
+                    <p style={{ textAlign: 'center', color: "#FFF", fontSize: '0.875rem', marginTop: '1rem' }}>Don't have an account? <Link to={'/register'} style={{ color: '#B22222', textDecoration: 'underline', fontWeight: '700' }}>Sign up</Link></p>
                     <div style={{ display: 'flex', alignItems: 'center', margin: '1rem 0' }}>
-                        <div style={{ flexGrow: 1, height: '2px', backgroundColor: '#D1D5DB' }}></div>
-                        <div style={{ fontSize: '0.875rem', fontWeight: '700', padding: '0 0.5rem' }}>OR</div>
-                        <div style={{ flexGrow: 1, height: '2px', backgroundColor: '#D1D5DB' }}></div>
+                        <div style={{ flexGrow: 1, height: '2px', backgroundColor: '#444' }}></div>
+                        <div style={{ fontSize: '0.875rem', fontWeight: '700', padding: '0 0.5rem', color: '#FFF' }}>OR</div>
+                        <div style={{ flexGrow: 1, height: '2px', backgroundColor: '#444' }}></div>
                     </div>
                     <button
                         disabled={isSigningIn}
@@ -105,14 +107,17 @@ const Login: React.FC = () => {
                             alignItems: 'center',
                             justifyContent: 'center',
                             gap: '0.75rem',
-                            padding: '0.625rem 0',
-                            border: '1px solid #D1D5DB',
+                            padding: '0.5rem 0.75rem',
+                            border: 'none',
                             borderRadius: '0.5rem',
                             fontSize: '0.875rem',
                             fontWeight: '500',
                             cursor: isSigningIn ? 'not-allowed' : 'pointer',
-                            backgroundColor: isSigningIn ? '#2A2A2A' : 'rgb(199, 10, 170)',
-                            transition: 'background-color 0.3s'
+                            backgroundColor: isSigningIn ? '#444' : '#B22222',
+                            color: '#FFF',
+                            transition: 'background-color 0.3s, transform 0.3s',
+                            boxShadow: '0px 4px 10px rgba(178, 34, 34, 0.4)',
+                            transform: isSigningIn ? 'scale(1)' : 'scale(1.02)'
                         }}>
                         <svg style={{ width: '1.25rem', height: '1.25rem' }} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clipPath="url(#clip0_17_40)">

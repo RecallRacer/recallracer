@@ -1,0 +1,32 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    background-color: transparent;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
+    color: white; /* Initially white */
+    cursor: pointer;
+    background-image: linear-gradient(90deg, #ff1e00, #ffbe6e); /* Define the gradient */
+    background-size: 200% 100%; /* Double the background width for the animation */
+    background-position: left;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -ms-background-clip: text;
+    -o-background-clip: text;
+    color: white; /* Ensure the text color is white initially */
+    transition: background-position 0.5s ease-in-out, color 0.5s ease-in-out;
+
+    &:hover {
+        color: transparent; /* Make the text transparent to show the gradient */
+        background-position: right; /* Shift the gradient from left to right */
+    }
+}
