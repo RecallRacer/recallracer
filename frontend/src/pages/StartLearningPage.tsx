@@ -4,14 +4,16 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styles from './StartLearningPage.module.css';
 import { useAddPlayer } from "@/hooks/useAddPlayer";
-import { useDisclosure } from "@mantine/hooks";
+import { useDisclosure, useToggle } from "@mantine/hooks";
 import { useForm } from '@mantine/form';
 import { useGetPlayers } from "@/hooks/useGetPlayers";
+import { useToggleRace } from "@/hooks/useToggleRace";
 
 export function StartLearningPage() {
     const { id } = useParams();
     const { getMaterials, loading } = useGetMaterials()
     const { getPlayers } = useGetPlayers();
+    const { toggleRace } = useToggleRace()
     const [opened, { open, close }] = useDisclosure(false);
     const { addPlayer } = useAddPlayer();
     const [data, setData] = useState({
@@ -22,6 +24,7 @@ export function StartLearningPage() {
     const [players, setPlayers] = useState<string[]>([])
     const [refetchMaterials, setRefetchMaterials] = useState(false)
     const [refetchPlayers, setRefetchPlayers] = useState(false)
+    const [raceActive, setRaceActive] = useState(false)
 
     const form = useForm({
         mode: 'uncontrolled',
@@ -54,7 +57,7 @@ export function StartLearningPage() {
         setRefetchPlayers(false)
     }, [refetchPlayers])
 
-    console.log(data)
+
 
     return (
         <div className={styles.pageContainer}>
@@ -99,11 +102,16 @@ export function StartLearningPage() {
                                 Invite another player to the study race!
                             </Button>
                             <Button
+                                disabled={raceActive}
                                 variant="gradient"
                                 size="xl"
                                 gradient={{ from: 'maroon', to: 'orange', deg: 90 }}
+                                onClick={async () => {
+                                    const responsePayload = await toggleRace(id as string, !raceActive);
+                                    setRaceActive(responsePayload.data.is_active)
+                                }}
                             >
-                                Start the Race!
+                                {raceActive ? "Race Started" : "Start Racing"}
                             </Button>
                         </>
                     )}

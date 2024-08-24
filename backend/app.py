@@ -94,7 +94,7 @@ def get_material_by_user(usermail):
             })
     return jsonify(materials), 200
 
-@app.route('/api/materials/all', methods=['GET'])
+@app.route('/api/materials', methods=['GET'])
 def get_all_materials():
     materials = Material.objects()
     all_materials = []
@@ -209,7 +209,24 @@ def toggle_race(material_id):
         race.is_active = is_active
         race.save()
 
-        return jsonify({"status": 200, "message": "Race status updated successfully", "is_active": race.is_active}), 200
+        return jsonify({"status": 200, "message": "Race status updated successfully", "data": {"is_active": race.is_active}}), 200
+
+    except Exception as e:
+        return jsonify({"status": 500, "message": str(e)}), 500
+
+@app.route('/api/races/<string:material_id>', methods=["GET"])
+def get_race(material_id):
+    try:
+        race = Race.objects(material_id=material_id).first()
+        
+        if not race:
+            return jsonify({"status": 404, "message": "Race not found"}), 404
+
+        return jsonify({
+            "status": 200,
+            "message": "Race found",
+            "data": json.loads(race.to_json())
+        }), 200
 
     except Exception as e:
         return jsonify({"status": 500, "message": str(e)}), 500
