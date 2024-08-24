@@ -1,9 +1,5 @@
 # Quickstart
 
-This starter uses React + Vite in the frontend, and Express.js in the backend.
-
-Open two terminals to serve the frontend and backend respectively. To start the frontend, execute
-
 ```
 make serve-frontend
 ```
