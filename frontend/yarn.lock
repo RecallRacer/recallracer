@@ -1200,7 +1200,7 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@mantine/core@7.11.2":
+"@mantine/core@>=7.0.0", "@mantine/core@7.11.2":
   version "7.11.2"
   resolved "https://registry.npmjs.org/@mantine/core/-/core-7.11.2.tgz"
   integrity sha512-T64RjdgY8UPAv249miW1lQyPPot1JbCcKKsAZMNQHgcttcxLhrFpKVvglc4/48hdSoxI4LYJPNvqp7zciZmucQ==
@@ -1212,10 +1212,15 @@
     react-textarea-autosize "8.5.3"
     type-fest "^4.12.0"
 
-"@mantine/hooks@7.11.2":
+"@mantine/hooks@>=7.0.0", "@mantine/hooks@7.11.2":
   version "7.11.2"
   resolved "https://registry.npmjs.org/@mantine/hooks/-/hooks-7.11.2.tgz"
   integrity sha512-jhyVe/sbDEG2U8rr2lMecUPgQxcfr5hh9HazqGfkS7ZRIMDO7uJ947yAcTMGGkp5Lxtt5TBFt1Cb6tiB2/1agg==
+
+"@mantinex/dev-icons@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.npmjs.org/@mantinex/dev-icons/-/dev-icons-1.0.2.tgz"
+  integrity sha512-wKSOvjqLTQbSf+XAq3BojhkaEwjR1C3L5ShlgE2lN6JnxGcIZeFcwphMf4xqBp9Gl45XhIyKxNGfmija/u/a7A==
 
 "@mdx-js/react@^3.0.0":
   version "3.0.1"
@@ -1263,6 +1268,11 @@
   version "4.20.0"
   resolved "https://registry.npmjs.org/@rollup/rollup-linux-x64-gnu/-/rollup-linux-x64-gnu-4.20.0.tgz"
   integrity sha512-y+eoL2I3iphUg9tN9GB6ku1FA8kOfmF4oUEWhztDJ4KXJy1agk/9+pejOuZkNFhRwHAOxMsBPLbXPd6mJiCwew==
+
+"@rollup/rollup-linux-x64-musl@4.20.0":
+  version "4.20.0"
+  resolved "https://registry.npmjs.org/@rollup/rollup-linux-x64-musl/-/rollup-linux-x64-musl-4.20.0.tgz"
+  integrity sha512-hM3nhW40kBNYUkZb/r9k2FKK+/MnKglX7UYd4ZUy5DJs8/sMsIbqWK2piZtVGE3kcXVNj3B2IrUYROJMMCikNg==
 
 "@sinclair/typebox@^0.27.8":
   version "0.27.8"
@@ -2580,7 +2590,7 @@ check-error@^1.0.3:
   dependencies:
     get-func-name "^2.0.2"
 
-chokidar@^3.6.0:
+chokidar@^3.6.0, "chokidar@>=3.0.0 <4.0.0":
   version "3.6.0"
   resolved "https://registry.npmjs.org/chokidar/-/chokidar-3.6.0.tgz"
   integrity sha512-7VT13fmjotKpGipCW9JEQAusEPE+Ei8nl6/g4FBAmIm0GOOLMua9NDDo/DWp0ZAxCr3cPq5ZpBqmPAQgDda2Pw==
@@ -4108,6 +4118,11 @@ ignore@^5.2.0, ignore@^5.2.4, ignore@^5.3.1:
   version "5.3.1"
   resolved "https://registry.npmjs.org/ignore/-/ignore-5.3.1.tgz"
   integrity sha512-5Fytz/IraMjqpwfd34ke28PTVMjZjJG2MPn5t7OE4eUCUNf8BAa7b5WUS9/Qvr6mwOQS7Mk6vdsMno5he+T8Xw==
+
+immutable@^4.0.0:
+  version "4.3.7"
+  resolved "https://registry.npmjs.org/immutable/-/immutable-4.3.7.tgz"
+  integrity sha512-1hqclzwYwjRDFLjcFxOM5AYkkG0rpFPpr1RLPMEuGczoS7YA8gLhy8SWXYRAA/XwfEHpfo3cw5JGioS32fnMRw==
 
 import-fresh@^3.2.1, import-fresh@^3.3.0:
   version "3.3.0"
@@ -5886,6 +5901,15 @@ safe-regex-test@^1.0.3:
   resolved "https://registry.npmjs.org/safer-buffer/-/safer-buffer-2.1.2.tgz"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
+sass@*, sass@^1.77.8:
+  version "1.77.8"
+  resolved "https://registry.npmjs.org/sass/-/sass-1.77.8.tgz"
+  integrity sha512-4UHg6prsrycW20fqLGPShtEvo/WyHRVRHwOP4DzkUrObWoWI05QBSfzU71TVB7PFaL104TwNaHpjlWXAZbQiNQ==
+  dependencies:
+    chokidar ">=3.0.0 <4.0.0"
+    immutable "^4.0.0"
+    source-map-js ">=0.6.2 <2.0.0"
+
 saxes@^6.0.0:
   version "6.0.0"
   resolved "https://registry.npmjs.org/saxes/-/saxes-6.0.0.tgz"
@@ -6049,7 +6073,7 @@ slice-ansi@^4.0.0:
     astral-regex "^2.0.0"
     is-fullwidth-code-point "^3.0.0"
 
-source-map-js@^1.0.1, source-map-js@^1.2.0:
+source-map-js@^1.0.1, source-map-js@^1.2.0, "source-map-js@>=0.6.2 <2.0.0":
   version "1.2.0"
   resolved "https://registry.npmjs.org/source-map-js/-/source-map-js-1.2.0.tgz"
   integrity sha512-itJW8lvSA0TXEphiRoawsCksnlf8SyvmFzIhltqAHluXd88pkCd+cXJVHTDwdCr0IzwptSm035IHQktUu1QUMg==
@@ -6870,6 +6894,11 @@ vite-node@1.6.0:
     pathe "^1.1.1"
     picocolors "^1.0.0"
     vite "^5.0.0"
+
+vite-plugin-sass@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.npmjs.org/vite-plugin-sass/-/vite-plugin-sass-0.1.0.tgz"
+  integrity sha512-gLwvs3ozfDAOZCqs+PepkTd4078m8tfq50IlmTW/OphlWsW95uP7lQ5A3NezfUfTZDTCOA4nFlYnOWRpsKYOqw==
 
 vite-tsconfig-paths@^4.3.2:
   version "4.3.2"
