@@ -1,5 +1,11 @@
 # Quickstart
 
+Load connection string for Mongo into the environment
+
+```
+export MONGO_URI="<connection_string>"
+```
+
 To start the frontend, execute
 
 ```
