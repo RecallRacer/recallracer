@@ -1,6 +1,6 @@
 import React from "react";
 import { AuthProvider } from "./authContext";
-import { useRoutes, RouteObject } from "react-router-dom";
+import { useRoutes, RouteObject, BrowserRouter } from "react-router-dom";
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
 import { MantineProvider } from '@mantine/core';
@@ -32,19 +32,13 @@ const App = () => {
     },
   ];
 
-  const routesElement = useRoutes(routesArray);
-
   return (
+  <AuthProvider>
     <MantineProvider forceColorScheme="light">
       <Notifications />
-      <AuthProvider>
-        <Header />
-        <Navbar />
-        <div className="w-full h-screen flex flex-col">
-          {routesElement}
-        </div>
-      </AuthProvider>
+        <Router/>
     </MantineProvider>
+    </AuthProvider>
   );
 };
 
