@@ -9,11 +9,13 @@ import { useForm } from '@mantine/form';
 import { useGetPlayers } from "@/hooks/useGetPlayers";
 import { useToggleRace } from "@/hooks/useToggleRace";
 import { useGetRace } from "@/hooks/useGetRace";
+import { useInitLeaderboard } from "@/hooks/useInitLeaderboard";
 
 export function StartLearningPage() {
     const { id } = useParams();
     const navigate = useNavigate();
     const { getMaterials, loading } = useGetMaterials()
+    const { initLeaderboard } = useInitLeaderboard()
     const { getPlayers } = useGetPlayers();
     const { toggleRace } = useToggleRace()
     const { getRace } = useGetRace();
@@ -119,6 +121,7 @@ export function StartLearningPage() {
                                 gradient={!raceActive ? { from: 'maroon', to: 'orange', deg: 90 } : { from: 'orange', to: 'yellow', deg: 90 }}
                                 onClick={async () => {
                                     if (raceActive) {
+                                        await initLeaderboard(id as string);
                                         navigate(`/learn/${id}/question/1`)
                                     } else {
                                         const responsePayload = await toggleRace(id as string, !raceActive);

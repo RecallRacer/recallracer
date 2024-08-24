@@ -40,3 +40,13 @@ class Race(db.Document):
         'ordering': ['-start_time']  # Default ordering by start time, descending
     }
 
+class Leaderboard(db.Document):
+    id = db.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    material_id = db.StringField(required=True)  # ID of the material
+    num_questions = db.IntField(required=True)  # Total number of questions
+    players = db.MapField(db.IntField(), required=True)  # Mapping of player emails to their scores
+
+    meta = {
+        'collection': 'leaderboards',
+        'ordering': ['-num_questions']  # Default ordering by number of questions, descending
+    }

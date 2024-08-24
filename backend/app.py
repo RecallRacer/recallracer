@@ -1,9 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_mongoengine import MongoEngine
 from flask_cors import CORS
-from models import ReadingMaterial, MCQQuiz, ShortAnswerQuiz, Material
 from flask_socketio import SocketIO
-from models import ReadingMaterial, MCQQuiz, ShortAnswerQuiz, Material, Race
+from models import ReadingMaterial, MCQQuiz, Material, Race, Leaderboard
 from llm import generateLLM
 from flask_socketio import SocketIO
 import json
@@ -106,6 +105,44 @@ def get_material_by_user(usermail):
                 ]
             })
     return jsonify(materials), 200
+
+@app.route('/api/leaderboards', methods=['POST'])
+def initialize_leaderboard():
+    try:
+        data = request.get_json()
+        material_id = data.get("material_id")
+
+        # Validate material_id
+        if not material_id:
+            return jsonify({"status": 400, "message": "material_id is required"}), 400
+
+        # Find the race associated with the material_id
+        race = Race.objects(material_id=material_id).first()
+        if not race:
+            return jsonify({"status": 404, "message": "Race not found"}), 404
+
+        # Initialize leaderboard with all participants' scores set to zero
+        leaderboard_data = {
+            "material_id": material_id,
+            "num_questions": 0,  # Initialize with zero; update this as necessary
+            "players": {participant: 0 for participant in race.participants}
+        }
+
+        leaderboard = Leaderboard(**leaderboard_data)
+        leaderboard.save()
+
+        return jsonify({
+            "status": 201,
+            "message": "Leaderboard initialized successfully",
+            "data": {
+                "leaderboard_id": str(leaderboard.id),
+                "material_id": leaderboard.material_id,
+                "players": leaderboard.players
+            }
+        }), 201
+
+    except Exception as e:
+        return jsonify({"status": 500, "message": str(e)}), 500
 
 @app.route('/api/materials', methods=['GET'])
 def get_all_materials():

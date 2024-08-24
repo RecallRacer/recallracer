@@ -1,0 +1,10 @@
+{
+    "material_id": "id here",
+    "num_questions": "",
+    "players": {
+        "email1": 7,
+        "email2": 5,
+        "email3": 9,
+        "email4": 1
+    }
+}

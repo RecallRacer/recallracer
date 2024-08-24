@@ -15,9 +15,7 @@ function QuestionType(qtype: string) {
     if (qtype === "reading") {
         return "Reading"
     } else if (qtype === "mcq_quiz") {
-        return "Multiple Choice"
-    } else {
-        return "Open Ended"
+        return "Quiz"
     }
 }
 
@@ -84,6 +82,7 @@ export function RacePage() {
             console.log(selectedOption)
         }
 
+        setSelectedOption(undefined)
         const nextQuestionExists = hasNextQuestion(allMaterials, parseInt(q_number as string, 10));
 
         if (nextQuestionExists) {

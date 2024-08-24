@@ -31,13 +31,15 @@ prompt_template = PromptTemplate(
         "correct_answer": "<the correct answer>"
     }}
 
-    Note that any reading material should be detailed and comprehensive. The output should cover all aspects of the text. The final JSON object must be structured as follows:
+    Note that any reading material should be detailed and comprehensive. There must not be any consecutive reading material. The output should cover all aspects of the text. The final JSON object must be structured as follows:
 
     {{
         "title": "<title>",
         "short_description": "<short description of what the materials cover>",
         "materials": [<list of materials here>]
     }}
+
+    "materials" must be an array with a fixed size of 8.
 
     Text to process:
     {text}
