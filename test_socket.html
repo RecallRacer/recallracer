@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Race</title>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+</head>
+
+<body>
+    <h1>Join Race</h1>
+    <button onclick="joinRace()">Join Race</button>
+
+    <script>
+        const socket = io('http://127.0.0.1:5000'); // Replace with your server URL
+
+        socket.on('connect', function () {
+            console.log('Connected to server');
+        });
+
+        socket.on('notify', function (data) {
+            console.log('Received notification:', data);
+        });
+
+        socket.on('disconnect', function () {
+            console.log('Disconnected from server');
+        });
+
+        function joinRace() {
+            const raceData = {
+                race_id: 'd99d0283-1db2-452b-84e0-37dff9bc63d1',
+                usermail: 'iceyvision01@gmail.com',
+                username: 'IceyVision'
+            };
+
+            socket.emit('join-race', raceData);
+            console.log('Join race event emitted:', raceData);
+        }
+    </script>
+</body>
+
+</html>

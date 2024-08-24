@@ -9,6 +9,7 @@ const Register: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [displayName, setDisplayName] = useState<string>(''); // New state for displayName
   const [isRegistering, setIsRegistering] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
@@ -27,7 +28,7 @@ const Register: React.FC = () => {
       }
 
       try {
-        await doCreateUserWithEmailAndPassword(email, password);
+        await doCreateUserWithEmailAndPassword(email, password, displayName); // Pass displayName
         navigate('/home');
       } catch (error) {
         setErrorMessage("Registration failed. Please try again.");
@@ -40,28 +41,61 @@ const Register: React.FC = () => {
     <>
       {userLoggedIn && <Navigate to={'/home'} replace={true} />}
 
-      <main className="w-full h-screen flex self-center place-content-center place-items-center">
-        <div className="w-96 text-gray-600 space-y-5 p-4 shadow-xl border rounded-xl">
-          <div className="text-center mb-6">
-            <div className="mt-2">
-              <h3 className="text-gray-800 text-xl font-semibold sm:text-2xl">Create a New Account</h3>
+      <main style={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ width: '24rem', color: '#4B5563', padding: '1rem', boxShadow: '0px 10px 15px -3px rgba(0, 0, 0, 0.1)', borderRadius: '1rem', border: '1px solid #E5E7EB', backgroundColor: '#2A2A2A' }}>
+          <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+            <div style={{ marginTop: '0.5rem' }}>
+              <h3 style={{ color: 'white', fontSize: '1.5rem', fontWeight: '600' }}>Create a New Account</h3>
             </div>
           </div>
-          <form onSubmit={onSubmit} className="space-y-4">
+          <form onSubmit={onSubmit} style={{ marginTop: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <div>
-              <label className="text-sm text-gray-600 font-bold">Email</label>
+              <label style={{ fontSize: '0.875rem', fontWeight: '700', color: 'white' }}>Display Name</label>
+              <input
+                type="text"
+                required
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+                style={{
+                  width: '100%',
+                  marginTop: '0.5rem',
+                  padding: '0.5rem 0.75rem',
+                  color: '#6B7280',
+                  backgroundColor: 'transparent',
+                  outline: 'none',
+                  border: '1px solid #D1D5DB',
+                  borderRadius: '0.5rem',
+                  boxShadow: 'inset 0px 1px 2px rgba(0, 0, 0, 0.1)',
+                  transition: 'border-color 0.3s'
+                }}
+              />
+            </div>
+
+            <div>
+              <label style={{ fontSize: '0.875rem', fontWeight: '700', color: 'white' }}>Email</label>
               <input
                 type="email"
                 autoComplete="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:indigo-600 shadow-sm rounded-lg transition duration-300"
+                style={{
+                  width: '100%',
+                  marginTop: '0.5rem',
+                  padding: '0.5rem 0.75rem',
+                  color: '#6B7280',
+                  backgroundColor: 'transparent',
+                  outline: 'none',
+                  border: '1px solid #D1D5DB',
+                  borderRadius: '0.5rem',
+                  boxShadow: 'inset 0px 5px 5px rgba(0, 0, 0, 0.1)',
+                  transition: 'border-color 0.3s'
+                }}
               />
             </div>
 
             <div>
-              <label className="text-sm text-gray-600 font-bold">Password</label>
+              <label style={{ fontSize: '0.875rem', fontWeight: '700', color: 'white' }}>Password</label>
               <input
                 disabled={isRegistering}
                 type="password"
@@ -69,12 +103,23 @@ const Register: React.FC = () => {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300"
+                style={{
+                  width: '100%',
+                  marginTop: '0.5rem',
+                  padding: '0.5rem 0.75rem',
+                  color: '#6B7280',
+                  backgroundColor: 'transparent',
+                  outline: 'none',
+                  border: '1px solid #D1D5DB',
+                  borderRadius: '0.5rem',
+                  boxShadow: 'inset 0px 1px 2px rgba(0, 0, 0, 0.1)',
+                  transition: 'border-color 0.3s'
+                }}
               />
             </div>
 
             <div>
-              <label className="text-sm text-gray-600 font-bold">Confirm Password</label>
+              <label style={{ fontSize: '0.875rem', fontWeight: '700', color: 'white' }}>Confirm Password</label>
               <input
                 disabled={isRegistering}
                 type="password"
@@ -82,24 +127,42 @@ const Register: React.FC = () => {
                 required
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300"
+                style={{
+                  width: '100%',
+                  marginTop: '0.5rem',
+                  padding: '0.5rem 0.75rem',
+                  color: '#6B7280',
+                  backgroundColor: 'transparent',
+                  outline: 'none',
+                  border: '1px solid #D1D5DB',
+                  borderRadius: '0.5rem',
+                  boxShadow: 'inset 0px 1px 2px rgba(0, 0, 0, 0.1)',
+                  transition: 'border-color 0.3s'
+                }}
               />
             </div>
 
-            {errorMessage && <span className="text-red-600 font-bold">{errorMessage}</span>}
+            {errorMessage && <span style={{ color: '#DC2626', fontWeight: '700' }}>{errorMessage}</span>}
 
             <button
               type="submit"
               disabled={isRegistering}
-              className={`w-full px-4 py-2 text-white font-medium rounded-lg ${
-                isRegistering ? 'bg-gray-300 cursor-not-allowed' : 'bg-indigo-700 hover:shadow-xl transition duration-300'
-              }`}
+              style={{
+                width: '100%',
+                padding: '0.5rem 1rem',
+                color: '#FFFFFF',
+                fontWeight: '500',
+                borderRadius: '0.5rem',
+                backgroundColor: isRegistering ? '#D1D5DB' : '#4F46E5',
+                cursor: isRegistering ? 'not-allowed' : 'pointer',
+                transition: 'background-color 0.3s, box-shadow 0.3s'
+              }}
             >
               {isRegistering ? 'Signing Up...' : 'Sign Up'}
             </button>
-            <div className="text-sm text-center">
+            <div style={{ fontSize: '0.875rem', textAlign: 'center', color : "white" }}>
               Already have an account?{' '}
-              <Link to={'/login'} className="text-center text-sm hover:underline font-bold">
+              <Link to={'/login'} style={{ textDecoration: 'underline', fontWeight: '700' }}>
                 Continue
               </Link>
             </div>

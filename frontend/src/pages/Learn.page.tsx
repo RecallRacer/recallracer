@@ -25,7 +25,7 @@ export function LearnPage() {
 
                 setExtractedText(text);
                 const response = await generateMaterials(text);
-                navigate(`/learn/${response.id}`)
+                navigate(`/learn/${response.data.id}`)
             })
             .catch((error) =>
                 notifications.show({
