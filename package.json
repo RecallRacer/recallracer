@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "@mantine/notifications": "^7.12.1",
-    "react-pdftotext": "^1.3.0"
-  }
-}

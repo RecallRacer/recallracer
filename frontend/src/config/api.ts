@@ -1,5 +1,5 @@
-const backendUrl = 'http://localhost:8080';
+const backendUrl = 'http://localhost:5000';
 
 export const apiEndpoints = {
-  healthCheck: `${backendUrl}/health`,
+  generateMaterial: `${backendUrl}/api/materials`,
 };
