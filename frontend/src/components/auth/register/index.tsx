@@ -42,15 +42,15 @@ const Register: React.FC = () => {
       {userLoggedIn && <Navigate to={'/home'} replace={true} />}
 
       <main style={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <div style={{ width: '24rem', color: '#4B5563', padding: '1rem', boxShadow: '0px 10px 15px -3px rgba(0, 0, 0, 0.1)', borderRadius: '1rem', border: '1px solid #E5E7EB', backgroundColor: '#FFFFFF' }}>
+        <div style={{ width: '24rem', color: '#4B5563', padding: '1rem', boxShadow: '0px 10px 15px -3px rgba(0, 0, 0, 0.1)', borderRadius: '1rem', border: '1px solid #E5E7EB', backgroundColor: '#2A2A2A' }}>
           <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
             <div style={{ marginTop: '0.5rem' }}>
-              <h3 style={{ color: '#1F2937', fontSize: '1.5rem', fontWeight: '600' }}>Create a New Account</h3>
+              <h3 style={{ color: 'white', fontSize: '1.5rem', fontWeight: '600' }}>Create a New Account</h3>
             </div>
           </div>
           <form onSubmit={onSubmit} style={{ marginTop: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <div>
-              <label style={{ fontSize: '0.875rem', fontWeight: '700', color: '#4B5563' }}>Display Name</label>
+              <label style={{ fontSize: '0.875rem', fontWeight: '700', color: 'white' }}>Display Name</label>
               <input
                 type="text"
                 required
@@ -72,7 +72,7 @@ const Register: React.FC = () => {
             </div>
 
             <div>
-              <label style={{ fontSize: '0.875rem', fontWeight: '700', color: '#4B5563' }}>Email</label>
+              <label style={{ fontSize: '0.875rem', fontWeight: '700', color: 'white' }}>Email</label>
               <input
                 type="email"
                 autoComplete="email"
@@ -88,14 +88,14 @@ const Register: React.FC = () => {
                   outline: 'none',
                   border: '1px solid #D1D5DB',
                   borderRadius: '0.5rem',
-                  boxShadow: 'inset 0px 1px 2px rgba(0, 0, 0, 0.1)',
+                  boxShadow: 'inset 0px 5px 5px rgba(0, 0, 0, 0.1)',
                   transition: 'border-color 0.3s'
                 }}
               />
             </div>
 
             <div>
-              <label style={{ fontSize: '0.875rem', fontWeight: '700', color: '#4B5563' }}>Password</label>
+              <label style={{ fontSize: '0.875rem', fontWeight: '700', color: 'white' }}>Password</label>
               <input
                 disabled={isRegistering}
                 type="password"
@@ -119,7 +119,7 @@ const Register: React.FC = () => {
             </div>
 
             <div>
-              <label style={{ fontSize: '0.875rem', fontWeight: '700', color: '#4B5563' }}>Confirm Password</label>
+              <label style={{ fontSize: '0.875rem', fontWeight: '700', color: 'white' }}>Confirm Password</label>
               <input
                 disabled={isRegistering}
                 type="password"
@@ -160,7 +160,7 @@ const Register: React.FC = () => {
             >
               {isRegistering ? 'Signing Up...' : 'Sign Up'}
             </button>
-            <div style={{ fontSize: '0.875rem', textAlign: 'center' }}>
+            <div style={{ fontSize: '0.875rem', textAlign: 'center', color : "white" }}>
               Already have an account?{' '}
               <Link to={'/login'} style={{ textDecoration: 'underline', fontWeight: '700' }}>
                 Continue
