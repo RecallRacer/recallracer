@@ -2,13 +2,12 @@ from flask import Flask, request, jsonify
 from flask_mongoengine import MongoEngine
 from flask_cors import CORS
 from models import ReadingMaterial, MCQQuiz, ShortAnswerQuiz, Material
+from flask_socketio import SocketIO
 from llm import generateLLM
 import os
 import uuid
 
 app = Flask(__name__)
-CORS(app)
-
 CORS(app)
 
 app.config['MONGODB_SETTINGS'] = {
@@ -17,7 +16,7 @@ app.config['MONGODB_SETTINGS'] = {
 db = MongoEngine(app)
 
 # Initialize SocketIO
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins="")
 
 @app.route('/health', methods=['GET'])
 def health_check():

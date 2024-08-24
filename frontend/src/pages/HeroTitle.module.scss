@@ -1,26 +1,46 @@
 $mantine-breakpoint-sm: 768px;
+
 .wrapper {
   position: relative;
-  box-sizing: border-box;
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+  overflow: hidden;
   background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-8));
+  margin: 0; /* Remove any margin */
+  padding: 0; /* Remove any padding */
+}
+
+.splineContainer {
+  position: absolute;
+  top: 0;
+  left: 0;  
+  width: 100%;
+  height: 100%; /* Ensure the Spline covers the entire viewport */
+  z-index: -1; /* Send the Spline to the background */
+}
+
+.splineBackground {
+  width: 100%;
+  height: 100%;
 }
 
 .inner {
   position: relative;
-  padding-top: 200rem;  /* Use direct rem units */
-  padding-bottom: 120rem;
+  z-index: 1; /* Ensure content stays above the Spline background */
+  text-align: center;
+  padding-top: 50vh; /* Adjust the padding for vertical alignment */
+  transform: translateY(-50%); /* Center the content vertically */
+  padding-bottom: 0; /* Remove bottom padding to avoid gap */
 
   @media (max-width: $mantine-breakpoint-sm) {
-    padding-bottom: 80rem;
-    padding-top: 80rem;
+    padding-bottom: 0;
+    padding-top: 8rem;
   }
 }
 
 .title {
-  font-family:
-    Greycliff CF,
-    var(--mantine-font-family);
-  font-size: 62rem;  /* Use direct rem units */
+  font-family: Greycliff CF, var(--mantine-font-family);
+  font-size: 6.2rem; /* Adjusted font size */
   font-weight: 900;
   line-height: 1.1;
   margin: 0;
@@ -28,17 +48,18 @@ $mantine-breakpoint-sm: 768px;
   color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
 
   @media (max-width: $mantine-breakpoint-sm) {
-    font-size: 42rem;
+    font-size: 4.2rem;
     line-height: 1.2;
   }
 }
 
 .description {
   margin-top: var(--mantine-spacing-xl);
-  font-size: 24rem;  /* Use direct rem units */
+  font-size: 2.4rem; /* Adjusted font size */
+  color: light-dark(var(--mantine-color-dark-2), var(--mantine-color-gray-0)); /* Brighter color for smaller text */
 
   @media (max-width: $mantine-breakpoint-sm) {
-    font-size: 18rem;
+    font-size: 1.8rem;
   }
 }
 
@@ -51,14 +72,19 @@ $mantine-breakpoint-sm: 768px;
 }
 
 .control {
-  height: 54rem;  /* Use direct rem units */
-  padding-left: 38rem;
-  padding-right: 38rem;
+  height: 5.4rem; /* Adjusted control height */
+  padding-left: 3.8rem;
+  padding-right: 3.8rem;
+  margin: 10px;
 
   @media (max-width: $mantine-breakpoint-sm) {
-    height: 54rem;
-    padding-left: 18rem;
-    padding-right: 18rem;
+    height: 5.4rem;
+    padding-left: 1.8rem;
+    padding-right: 1.8rem;
     flex: 1;
   }
+}
+
+.content {
+  opacity: 0;
 }
