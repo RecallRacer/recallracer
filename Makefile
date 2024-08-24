@@ -2,7 +2,7 @@ serve-frontend:
 	npm --prefix ./frontend run dev
 
 serve-backend:
-	npm --prefix ./backend run dev
+	python3 ./backend/app.py
 
 mailhog-up:
 	chmod +x scripts/mailhog_up.sh
