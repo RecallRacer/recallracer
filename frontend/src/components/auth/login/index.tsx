@@ -40,19 +40,16 @@ const Login: React.FC = () => {
         <div>
             {userLoggedIn && (<Navigate to={'/home'} replace={true} />)}
 
-            <main className="w-full h-screen flex self-center place-content-center place-items-center">
-                <div className="w-96 text-gray-600 space-y-5 p-4 shadow-xl border rounded-xl">
-                    <div className="text-center">
-                        <div className="mt-2">
-                            <h3 className="text-gray-800 text-xl font-semibold sm:text-2xl">Welcome Back</h3>
+            <main style={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <div style={{ width: '24rem', color: '#4B5563', padding: '1rem', boxShadow: '0px 10px 15px -3px rgba(0, 0, 0, 0.1)', borderRadius: '1rem', border: '1px solid #E5E7EB', backgroundColor: '#FFFFFF' }}>
+                    <div style={{ textAlign: 'center' }}>
+                        <div style={{ marginTop: '0.5rem' }}>
+                            <h3 style={{ color: '#1F2937', fontSize: '1.5rem', fontWeight: '600' }}>Welcome Back</h3>
                         </div>
                     </div>
-                    <form
-                        onSubmit={onSubmit}
-                        className="space-y-5"
-                    >
+                    <form onSubmit={onSubmit} style={{ marginTop: '1.25rem' }}>
                         <div>
-                            <label className="text-sm text-gray-600 font-bold">
+                            <label style={{ fontSize: '0.875rem', fontWeight: '700', color: '#4B5563' }}>
                                 Email
                             </label>
                             <input
@@ -60,13 +57,11 @@ const Login: React.FC = () => {
                                 autoComplete='email'
                                 required
                                 value={email} onChange={(e) => { setEmail(e.target.value) }}
-                                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300"
+                                style={{ width: '100%', marginTop: '0.5rem', padding: '0.5rem 0.75rem', color: '#6B7280', backgroundColor: 'transparent', border: '1px solid #D1D5DB', borderRadius: '0.5rem', outline: 'none', transition: 'border-color 0.3s' }}
                             />
                         </div>
-
-
-                        <div>
-                            <label className="text-sm text-gray-600 font-bold">
+<div style={{ marginTop: '1.25rem' }}>
+                            <label style={{ fontSize: '0.875rem', fontWeight: '700', color: '#4B5563' }}>
                                 Password
                             </label>
                             <input
@@ -74,27 +69,52 @@ const Login: React.FC = () => {
                                 autoComplete='current-password'
                                 required
                                 value={password} onChange={(e) => { setPassword(e.target.value) }}
-                                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg transition duration-300"
+                                style={{ width: '100%', marginTop: '0.5rem', padding: '0.5rem 0.75rem', color: '#6B7280', backgroundColor: 'transparent', border: '1px solid #D1D5DB', borderRadius: '0.5rem', outline: 'none', transition: 'border-color 0.3s' }}
                             />
                         </div>
 
                         <button
                             type="submit"
                             disabled={isSigningIn}
-                            className={`w-full px-4 py-2 text-white font-medium rounded-lg ${isSigningIn ? 'bg-gray-300 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700 hover:shadow-xl transition duration-300'}`}
+                            style={{
+                                width: '100%',
+                                padding: '0.5rem 1rem',
+                                color: '#FFFFFF',
+                                fontWeight: '500',
+                                borderRadius: '0.5rem',
+                                backgroundColor: isSigningIn ? '#D1D5DB' : '#4F46E5',
+                                cursor: isSigningIn ? 'not-allowed' : 'pointer',
+                                transition: 'background-color 0.3s, box-shadow 0.3s'
+                            }}
                         >
                             {isSigningIn ? 'Signing In...' : 'Sign In'}
                         </button>
                     </form>
-                    <p className="text-center text-sm">Don't have an account? <Link to={'/register'} className="hover:underline font-bold">Sign up</Link></p>
-                    <div className='flex flex-row text-center w-full'>
-                        <div className='border-b-2 mb-2.5 mr-2 w-full'></div><div className='text-sm font-bold w-fit'>OR</div><div className='border-b-2 mb-2.5 ml-2 w-full'></div>
+                    <p style={{ textAlign: 'center', fontSize: '0.875rem', marginTop: '1rem' }}>Don't have an account? <Link to={'/register'} style={{ textDecoration: 'underline', fontWeight: '700' }}>Sign up</Link></p>
+                    <div style={{ display: 'flex', alignItems: 'center', margin: '1rem 0' }}>
+                        <div style={{ flexGrow: 1, height: '2px', backgroundColor: '#D1D5DB' }}></div>
+                        <div style={{ fontSize: '0.875rem', fontWeight: '700', padding: '0 0.5rem' }}>OR</div>
+                        <div style={{ flexGrow: 1, height: '2px', backgroundColor: '#D1D5DB' }}></div>
                     </div>
                     <button
                         disabled={isSigningIn}
                         onClick={(e) => { onGoogleSignIn(e) }}
-                        className={`w-full flex items-center justify-center gap-x-3 py-2.5 border rounded-lg text-sm font-medium ${isSigningIn ? 'cursor-not-allowed' : 'hover:bg-gray-100 transition duration-300 active:bg-gray-100'}`}>
-                        <svg className="w-5 h-5" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        style={{
+                            width: '100%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '0.75rem',
+                            padding: '0.625rem 0',
+                            border: '1px solid #D1D5DB',
+                            borderRadius: '0.5rem',
+                            fontSize: '0.875rem',
+fontWeight: '500',
+                            cursor: isSigningIn ? 'not-allowed' : 'pointer',
+                            backgroundColor: isSigningIn ? '#FFFFFF' : '#F9FAFB',
+                            transition: 'background-color 0.3s'
+                        }}>
+                        <svg style={{ width: '1.25rem', height: '1.25rem' }} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clipPath="url(#clip0_17_40)">
                                 <path d="M47.532 24.5528C47.532 22.9214 47.3997 21.2811 47.1175 19.6761H24.48V28.9181H37.4434C36.9055 31.8988 35.177 34.5356 32.6461 36.2111V42.2078H40.3801C44.9217 38.0278 47.532 31.8547 47.532 24.5528Z" fill="#4285F4" />
                                 <path d="M24.48 48.0016C30.9529 48.0016 36.4116 45.8764 40.3888 42.2078L32.6549 36.2111C30.5031 37.675 27.7252 38.5039 24.4888 38.5039C18.2275 38.5039 12.9187 34.2798 11.0139 28.6006H3.03296V34.7825C7.10718 42.8868 15.4056 48.0016 24.48 48.0016Z" fill="#34A853" />

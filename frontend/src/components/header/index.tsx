@@ -5,12 +5,13 @@ import { doSignOut } from "../../firebase/auth";
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
-  const { userLoggedIn } = useAuth();
+  const { userLoggedIn, currentUser } = useAuth();
 
   return (
     <>
       {userLoggedIn ? (
-        <nav className="flex flex-row gap-x-2 w-full z-20 fixed top-0 left-0 h-12 border-b place-content-center items-center bg-gray-200">
+        <nav className="">
+                  <div className='text-2xl font-bold pt-14'>Hello {currentUser?.displayName ? currentUser.displayName : currentUser?.email}, you are now logged in.</div>
           <button
             onClick={() => {
               doSignOut().then(() => {
