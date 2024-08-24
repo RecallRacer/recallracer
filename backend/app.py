@@ -178,13 +178,11 @@ def increment_score(material_id):
 @app.route('/api/leaderboards/<string:material_id>', methods=["GET"])
 def get_leaderboard(material_id):
     try:
-        # Fetch the leaderboard for the given material_id
         leaderboard = Leaderboard.objects(material_id=material_id).first()
 
         if not leaderboard:
             return jsonify({"status": 404, "message": "Leaderboard not found"}), 404
 
-        # Return the leaderboard data
         return jsonify({
             "status": 200,
             "message": "Leaderboard retrieved successfully",

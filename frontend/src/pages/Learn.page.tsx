@@ -55,8 +55,8 @@ export function LearnPage() {
                 <Stack align="center">
                     <Title className={styles.headerTitle}>Ziptide</Title>
                     {loading ? <>
-                        <Title>Generating active learning materials...</Title>
-                        <Loader color="red" />
+                        <Title className={styles.loading} mt={30} mb={40} />
+                        <span className={styles.loader}></span>
                     </>
                         :
                         ""}
