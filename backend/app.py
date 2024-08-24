@@ -1,30 +1,18 @@
 from flask import Flask, request, jsonify
 from flask_mongoengine import MongoEngine
 from flask_cors import CORS
-from flask_socketio import SocketIO
 from models import ReadingMaterial, MCQQuiz, Material, Race, Leaderboard
 from llm import generateLLM
-from flask_socketio import SocketIO
 import json
 import os
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
+CORS(app)
 
 app.config['MONGODB_SETTINGS'] = {
     'host': os.getenv('MONGO_URI')
 }
 db = MongoEngine(app)
-
-# Initialize SocketIO
-socketio = SocketIO(app, cors_allowed_origins="http://localhost:5173")
-
-@app.after_request
-def apply_cors(response):
-    response.headers["Access-Control-Allow-Origin"] = "*"
-    response.headers["Access-Control-Allow-Methods"] = "GET, POST, PATCH, PUT, DELETE, OPTIONS"
-    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
-    return response
 
 @app.route('/health', methods=['GET'])
 def health_check():
@@ -106,45 +94,88 @@ def get_material_by_user(usermail):
             })
     return jsonify(materials), 200
 
-@app.route('/api/leaderboards', methods=['POST'])
-def initialize_leaderboard():
+@app.route('/api/leaderboards', methods=["POST"])
+def init_leaderboard():
     try:
         data = request.get_json()
-        material_id = data.get("material_id")
 
-        # Validate material_id
+        material_id = data.get('material_id')
+        num_questions = data.get('num_questions', 0)
+
         if not material_id:
             return jsonify({"status": 400, "message": "material_id is required"}), 400
 
-        # Find the race associated with the material_id
+        # Fetch the Race document to get the participants
         race = Race.objects(material_id=material_id).first()
-        if not race:
+        
+        # Debugging statement to check the race object
+        if race is None:
+            print(f"No Race found for material_id: {material_id}")
             return jsonify({"status": 404, "message": "Race not found"}), 404
+        
+        participants = race.participants
+        print(f"Participants found: {participants}")
 
-        # Initialize leaderboard with all participants' scores set to zero
-        leaderboard_data = {
-            "material_id": material_id,
-            "num_questions": 0,  # Initialize with zero; update this as necessary
-            "players": {participant: 0 for participant in race.participants}
-        }
+        if not participants:
+            return jsonify({"status": 400, "message": "No participants found in the race"}), 400
 
-        leaderboard = Leaderboard(**leaderboard_data)
+        # Initialize players with scores set to 0
+        players = {participant: 0 for participant in participants}
+
+        leaderboard = Leaderboard(
+            material_id=material_id,
+            num_questions=num_questions,
+            players=players
+        )
         leaderboard.save()
 
-        return jsonify({
-            "status": 201,
-            "message": "Leaderboard initialized successfully",
-            "data": {
-                "leaderboard_id": str(leaderboard.id),
-                "material_id": leaderboard.material_id,
-                "players": leaderboard.players
-            }
-        }), 201
+        return jsonify({"status": 201, "message": "Leaderboard initialized successfully"}), 201
+
+    except Race.DoesNotExist:
+        return jsonify({"status": 404, "message": "Race not found"}), 404
+
+    except Exception as e:
+        print(f"Error occurred: {str(e)}")
+        return jsonify({"status": 500, "message": str(e)}), 500
+
+@app.route('/api/leaderboards/<string:material_id>/increment', methods=["PATCH"])
+def increment_score(material_id):
+    try:
+        race = Race.objects(material_id=material_id).first()
+        if race is None:
+            return jsonify({"status": 404, "message": "Race not found"}), 404        
+
+        data = request.get_json()
+        email = data.get('email')
+        increment_value = data.get('increment_value', 1)
+
+        if not email:
+            return jsonify({"status": 400, "message": "Email is required"}), 400
+
+        # Fetch the leaderboard for the given material_id
+        leaderboard = Leaderboard.objects(material_id=material_id).first()
+
+        if not leaderboard:
+            return jsonify({"status": 404, "message": "Leaderboard not found"}), 404
+
+        # Check if the email is in the players
+        if email not in leaderboard.players:
+            return jsonify({"status": 400, "message": "Player not found in leaderboard"}), 400
+
+        # Increment the player's score
+        leaderboard.players[email] += increment_value
+
+        # Re-fetch the document and save again to avoid potential issues
+        refreshed_leaderboard = Leaderboard.objects(id=leaderboard.id).first()
+        refreshed_leaderboard.players = leaderboard.players
+        refreshed_leaderboard.save()
+
+        return jsonify({"status": 200, "message": "Score incremented successfully", "data": refreshed_leaderboard.players}), 200
 
     except Exception as e:
         return jsonify({"status": 500, "message": str(e)}), 500
 
-@app.route('/api/materials', methods=['GET'])
+app.route('/api/materials', methods=['GET'])
 def get_all_materials():
     materials = Material.objects()
     all_materials = []

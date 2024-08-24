@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import styles from './StartLearningPage.module.css';
 import { notifications } from "@mantine/notifications";
+import { useIncrementScore } from "@/hooks/useIncrementScore";
+import { useAuth } from "@/authContext";
 
 const getSingularMaterial = (materials: any, q_number: number) => {
     console.log(q_number)
@@ -34,7 +36,6 @@ function ReadingModule({ content }: { content: string }) {
 }
 
 function MCQModule({ question, options, selectedOption, setSelectedOption }: { question: string, options: any, selectedOption: any, setSelectedOption: any }) {
-
     return (
         <>
             <Text size="xl" className={styles.question}>
@@ -70,19 +71,17 @@ function MCQModule({ question, options, selectedOption, setSelectedOption }: { q
 export function RacePage() {
     const { m_id, q_number } = useParams();
     const navigate = useNavigate();
+    const { currentUser } = useAuth();
     const { getMaterials, loading } = useGetMaterials();
     const [material, setMaterial] = useState<any>(null);
     const [allMaterials, setAllMaterials] = useState<any[]>([]);
     const [selectedOption, setSelectedOption] = useState();
+    const [hasSubmitted, setHasSubmitted] = useState(false)
+    const { incrementScore } = useIncrementScore()
 
-    async function handleSubmit() {
-        if (!material) return;
+    function goToNextQuestion() {
+        setHasSubmitted(false);
 
-        if (material.type === "mcq_quiz") {
-            console.log(selectedOption)
-        }
-
-        setSelectedOption(undefined)
         const nextQuestionExists = hasNextQuestion(allMaterials, parseInt(q_number as string, 10));
 
         if (nextQuestionExists) {
@@ -100,6 +99,31 @@ export function RacePage() {
             });
             navigate(`/learn/${m_id}/leaderboard`);
         }
+    }
+
+    async function handleSubmit() {
+        if (!material) return;
+
+        if (material.type === "mcq_quiz") {
+            if (selectedOption === material.correct_answer) {
+                notifications.show({
+                    title: `Congratulations! You answered correctly!`,
+                    message: "Keep up the good work!",
+                    color: "green",
+                });
+                console.log(currentUser?.email)
+                await incrementScore(m_id as string, currentUser?.email as string)
+            } else {
+                notifications.show({
+                    title: `Sorry, you answered incorrectly. The correct answer was ${material.correct_answer}`,
+                    message: "Better luck next time!",
+                    color: "red",
+                });
+            }
+        }
+
+        setSelectedOption(undefined)
+        setHasSubmitted(true)
     }
 
     useEffect(() => {
@@ -135,9 +159,16 @@ export function RacePage() {
                                     </Title>
                                 </GridCol>
                                 <GridCol span="content">
-                                    <Button color="green" size="lg" onClick={handleSubmit}>
-                                        Submit
-                                    </Button>
+                                    {material.type !== "reading" ?
+                                        <Button disabled={hasSubmitted} color="green" size="lg" onClick={handleSubmit}>
+                                            Submit
+                                        </Button>
+                                        : ""}
+                                    {hasSubmitted || material.type === "reading" ?
+                                        <Button ml={8} color="orange" size="lg" onClick={goToNextQuestion}>
+                                            Next Module
+                                        </Button>
+                                        : ""}
                                 </GridCol>
                             </Grid>
                             {material.type === "reading" && (

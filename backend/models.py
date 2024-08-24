@@ -47,6 +47,5 @@ class Leaderboard(db.Document):
     players = db.MapField(db.IntField(), required=True)  # Mapping of player emails to their scores
 
     meta = {
-        'collection': 'leaderboards',
-        'ordering': ['-num_questions']  # Default ordering by number of questions, descending
+        'collection': 'leaderboards',  # Name of the collection in MongoDB
     }

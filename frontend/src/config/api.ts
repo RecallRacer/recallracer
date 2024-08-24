@@ -8,5 +8,6 @@ export const apiEndpoints = {
   toggleRace: `${backendUrl}/api/races`,
   getRace: `${backendUrl}/api/races`,
   createRace: `${backendUrl}/api/races`,
-  initLeaderboard: `${backendUrl}/api/leaderboards`
+  initLeaderboard: `${backendUrl}/api/leaderboards`,
+  incrementScore: `${backendUrl}/api/leaderboards`
 };

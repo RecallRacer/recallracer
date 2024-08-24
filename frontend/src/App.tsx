@@ -11,6 +11,7 @@ import Login from './components/auth/login';
 import Register from './components/auth/register';
 import { StartLearningPage } from './pages/StartLearningPage';
 import { RacePage } from './pages/Race.page';
+import { LeaderboardPage } from './pages/Leaderboard.page';
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/learn/:learnid/race/:quesnumber" element={<RacePage />} />
             <Route path="/learn/:m_id/question/:q_number" element={< RacePage />} />
+            <Route path="/learn/:m_id/leaderboard" element={<LeaderboardPage />} />
           </Routes>
         </BrowserRouter>
       </MantineProvider>
