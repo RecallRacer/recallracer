@@ -196,17 +196,26 @@ def get_leaderboard(material_id):
     except Exception as e:
         return jsonify({"status": 500, "message": str(e)}), 500
 
-@app.route('/api/progressions', methods=['POST'])
+@app.route('/api/progressions', methods=["POST"])
 def create_progression():
     try:
         data = request.get_json()
 
         material_id = data.get('material_id')
         num_questions = data.get('num_questions', 0)
-        players = data.get('players', {})
 
         if not material_id:
             return jsonify({"status": 400, "message": "material_id is required"}), 400
+
+        # Fetch the Race document to get the participants
+        race = Race.objects.get(material_id=material_id)
+        participants = race.participants
+
+        if not participants:
+            return jsonify({"status": 400, "message": "No participants found in the race"}), 400
+
+        # Initialize players with scores set to 0
+        players = {participant: 0 for participant in participants}
 
         progression = Progression(
             material_id=material_id,
@@ -215,7 +224,10 @@ def create_progression():
         )
         progression.save()
 
-        return jsonify({"status": 201, "message": "Progression created successfully", "data": str(progression.id)}), 201
+        return jsonify({"status": 201, "message": "Progression created successfully"}), 201
+
+    except Race.DoesNotExist:
+        return jsonify({"status": 404, "message": "Race not found"}), 404
 
     except Exception as e:
         return jsonify({"status": 500, "message": str(e)}), 500

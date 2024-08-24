@@ -10,5 +10,6 @@ export const apiEndpoints = {
   createRace: `${backendUrl}/api/races`,
   initLeaderboard: `${backendUrl}/api/leaderboards`,
   incrementScore: `${backendUrl}/api/leaderboards`,
-  getLeaderboard: `${backendUrl}/api/leaderboards`
+  getLeaderboard: `${backendUrl}/api/leaderboards`,
+  progressions: `${backendUrl}/api/progressions`
 };
