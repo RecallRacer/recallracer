@@ -1,6 +1,7 @@
 import { Container, Text, Button, Group } from '@mantine/core';
 import classes from './HeroTitle.module.scss';
 import { useNavigate } from 'react-router-dom';
+import styles from "./StartLearningPage.module.css"
 
 export function HomePage() {
   const navigate = useNavigate();
@@ -8,15 +9,17 @@ export function HomePage() {
     <div className={classes.wrapper}>
       <Container size={800} className={classes.inner}>
         <h1 className={classes.title} style={{ fontSize: '4rem', lineHeight: '1.2' }}>
-          Learn{' '}
-          <Text component="span" variant="gradient" gradient={{ from: 'maroon', to: 'red' }} inherit>
-            fully featured
+          A{' '}
+          <Text component="span" className={styles.headerTitle} inherit>
+            blazingly fast
           </Text>{' '}
-          React components and hooks library
+          and <Text component="span" className={styles.headerTitle} inherit>
+            fun
+          </Text>{' '}way to study by racing against your peers.
         </h1>
 
         <Text className={classes.description} color="dimmed" style={{ fontSize: '2em' }}>
-          Learn contents of PDFs by letting $app name$'s AI make quizzes, and race your friends to finish the modules the fastest!
+          We leverage LangChain to allow you and your peers to study together through active recall.
         </Text>
 
         <Group className={classes.controls} mt={50}>

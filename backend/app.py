@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_mongoengine import MongoEngine
 from flask_cors import CORS
+from models import ReadingMaterial, MCQQuiz, ShortAnswerQuiz, Material
+from flask_socketio import SocketIO
 from models import ReadingMaterial, MCQQuiz, ShortAnswerQuiz, Material, Race
 from llm import generateLLM
 from flask_socketio import SocketIO
@@ -8,14 +10,26 @@ import json
 import os
 
 app = Flask(__name__)
-
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
 
 app.config['MONGODB_SETTINGS'] = {
     'host': os.getenv('MONGO_URI')
 }
 db = MongoEngine(app)
 
+# Initialize SocketIO
+socketio = SocketIO(app, cors_allowed_origins="http://localhost:5173")
+
+@app.after_request
+def apply_cors(response):
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, PATCH, PUT, DELETE, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+    return response
+
+@app.route('/health', methods=['GET'])
+def health_check():
+    return jsonify({'status': '200'})
 @app.route("/api/materials/<string:material_id>", methods=["GET"])
 def get_materials_by_id(material_id):
     try:
@@ -53,8 +67,6 @@ def create_materials():
             mongo_materials.append(ReadingMaterial(**item))
         elif item["type"] == "mcq_quiz":
             mongo_materials.append(MCQQuiz(**item))
-        elif item["type"] == "open_ended_quiz":
-            mongo_materials.append(ShortAnswerQuiz(**item))
 
     material_doc = Material(
         title=title,
@@ -233,4 +245,4 @@ def get_race(material_id):
         return jsonify({"status": 500, "message": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True);
+    app.run(debug=True)

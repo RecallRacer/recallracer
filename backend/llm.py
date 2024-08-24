@@ -31,13 +31,7 @@ prompt_template = PromptTemplate(
         "correct_answer": "<the correct answer>"
     }}
 
-    {{
-        "type": "open_ended_quiz",
-        "question": "<problem statement>",
-        "correct_answer": "<the correct answer>"
-    }}
-
-    The final JSON object must be structured as follows:
+    Note that any reading material should be detailed and comprehensive. The output should cover all aspects of the text. The final JSON object must be structured as follows:
 
     {{
         "title": "<title>",
