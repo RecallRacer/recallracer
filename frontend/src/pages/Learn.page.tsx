@@ -52,3 +52,7 @@ export function LearnPage() {
         </>
     );
 }
+
+function setError(error: any): any {
+    throw new Error('Function not implemented.');
+}
