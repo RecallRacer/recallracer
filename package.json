@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "@esbuild/darwin-arm64": "^0.23.1",
-    "@mantine/notifications": "^7.12.1",
-    "react-pdftotext": "^1.3.0"
-  }
-}

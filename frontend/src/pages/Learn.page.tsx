@@ -1,60 +1,75 @@
-import { Center, Loader, Stack, Text, Title } from '@mantine/core';
+import { Center, Container, Loader, Stack, Text, Title } from '@mantine/core';
 import { Input } from '@mantine/core';
 import { useState } from 'react';
-import pdfToText from 'react-pdftotext'
+import pdfToText from 'react-pdftotext';
 import { notifications } from '@mantine/notifications';
-import { DropzoneButton } from '@/components/DropzoneButton';
+import '@mantine/dropzone/styles.css';
+import './custom-file-input.css'; // Import the custom CSS
+import { useGenerateMaterials } from '@/hooks/useGenerateMaterial';
 
 export function LearnPage() {
     const [extractedText, setExtractedText] = useState<string | null>(null);
-    const [loading, setLoading] = useState<boolean>(false);
+    const { generateMaterials, materials, loading } = useGenerateMaterials();
 
     function extractText(event: any) {
-        const file = event.target.files[0]
-        setLoading(true);
+        const file = event.target.files[0];
         pdfToText(file)
-            .then(text => {
+            .then(async text => {
                 notifications.show({
                     title: "We have successfully parsed your PDF!",
                     message: "Please wait as we generate learning materials for you!",
                     color: "green",
-                })
-                setExtractedText(text)
+                });
+
+                setExtractedText(text);
+                await generateMaterials(extractedText as string);
+                console.log("SUCCSESFULLY GENERATED:", materials)
             })
             .catch((error) =>
                 notifications.show({
                     title: "Failed to parse PDF..",
                     message: error,
                     color: "red"
-                }))
-        setLoading(false);
+                })
+            );
     }
 
     return (
-        <>
-            <Center pt={4}>
+        <Container>
+            <Center pt={50}>
                 <Stack>
-                    {loading ? <Loader color="blue" /> : ""}
+                    {loading ? <>
+                        <Title>Generating active learning materials...</Title>
+                        <Loader color="red" />
+                    </>
+                        :
+                        ""}
                     {extractedText === null ?
                         <>
                             <Title>Start Learning</Title>
                             <Text>
                                 Upload a PDF and we will generate a sequence of content designed to help you with active recall.
                             </Text>
-                            {/* <Input type="file" accept="application/pdf" onChange={extractText} /> */}
-                            <DropzoneButton onDrop={extractText}/>
+                            <Input
+                                className="custom-file-input"
+                                type="file"
+                                accept="application/pdf"
+                                onChange={extractText}
+                                radius="md"
+                                size="md"
+                                styles={(theme) => ({
+                                    input: {
+                                        borderColor: theme.colors.gray[3],
+                                        backgroundColor: theme.colors.gray[0],
+                                    },
+                                })}
+                            />
                         </>
                         :
-                        <>
-                            <Title>Generating content...</Title>
-                        </>
+                        ""
                     }
                 </Stack>
             </Center>
-        </>
+        </Container>
     );
-}
-
-function setError(error: any): any {
-    throw new Error('Function not implemented.');
 }
