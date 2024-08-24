@@ -1,11 +1,14 @@
 from flask import Flask, request, jsonify
 from flask_mongoengine import MongoEngine
+from flask_cors import CORS
 from models import ReadingMaterial, MCQQuiz, ShortAnswerQuiz, Material
 from llm import generateLLM
 import os
 import uuid
 
 app = Flask(__name__)
+
+CORS(app)
 
 app.config['MONGODB_SETTINGS'] = {
     'host': os.getenv('MONGO_URI')

@@ -6,10 +6,12 @@ import { notifications } from '@mantine/notifications';
 import '@mantine/dropzone/styles.css';
 import './custom-file-input.css'; // Import the custom CSS
 import { useGenerateMaterials } from '@/hooks/useGenerateMaterial';
+import { useNavigate } from 'react-router-dom';
 
 export function LearnPage() {
     const [extractedText, setExtractedText] = useState<string | null>(null);
-    const { generateMaterials, materials, loading } = useGenerateMaterials();
+    const { generateMaterials, loading } = useGenerateMaterials();
+    const navigate = useNavigate();
 
     function extractText(event: any) {
         const file = event.target.files[0];
@@ -22,8 +24,8 @@ export function LearnPage() {
                 });
 
                 setExtractedText(text);
-                await generateMaterials(extractedText as string);
-                console.log("SUCCSESFULLY GENERATED:", materials)
+                const response = await generateMaterials(text);
+                navigate(`/learn/${response.id}`)
             })
             .catch((error) =>
                 notifications.show({

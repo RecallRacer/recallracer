@@ -4,7 +4,6 @@ import { useState } from "react";
 
 export const useGenerateMaterials = () => {
     const [loading, setLoading] = useState(false);
-    const [materials, setMaterials] = useState<any>(null);
 
     const generateMaterials = async (text: string) => {
         setLoading(true);
@@ -28,14 +27,15 @@ export const useGenerateMaterials = () => {
             })
         } else {
             setLoading(false);
-            setMaterials(responsePayload)
             notifications.show({
                 "title": "Successfully generated learning materials!",
                 "message": "You can start learning now!",
                 "color": "green",
             })
         }
+
+        return responsePayload;
     }
 
-    return { generateMaterials, materials, loading }
+    return { generateMaterials, loading }
 }
