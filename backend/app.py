@@ -118,7 +118,7 @@ def init_leaderboard():
 
         # Initialize players with scores set to 0, progression set to 0, and is_done set to False
         players = {participant: 0 for participant in participants}
-        progression = {participant: 0 for participant in participants}
+        progression = {participant: 1 for participant in participants}
         is_done = {participant: False for participant in participants}
 
         leaderboard = Leaderboard(
@@ -187,6 +187,21 @@ def increment_score(material_id):
     except Exception as e:
         return jsonify({"status": 500, "message": str(e)}), 500
 
+@app.route('/api/leaderboards/<string:material_id>/progressions/increment', methods=["PATCH"])
+def increment_progression(material_id):
+    try:
+        data = request.get_json()
+        email = data.get('email')
+        leaderboard = Leaderboard.objects(material_id=material_id.strip()).first()
+        leaderboard.progression[email] += 1
+        if leaderboard.progression[email] >= leaderboard.num_questions:
+            leaderboard.is_done[email] = True
+
+        leaderboard.save()
+
+    except Exception as e:
+        return jsonify({"status": 500, "message": str(e)}), 500
+
 
 @app.route('/api/leaderboards/<string:material_id>', methods=["GET"])
 def get_leaderboard(material_id):
@@ -245,37 +260,6 @@ def create_progression():
 
     except Race.DoesNotExist:
         return jsonify({"status": 404, "message": "Race not found"}), 404
-
-    except Exception as e:
-        return jsonify({"status": 500, "message": str(e)}), 500
-
-@app.route('/api/progression/<string:material_id>/increment', methods=["POST", "OPTIONS"])
-def increment_progression(material_id):
-    if request.method == "OPTIONS":
-        return _build_cors_preflight_response()
-    try:
-        data = request.get_json()
-        email = data.get('email')
-
-        if not email:
-            return jsonify({"status": 400, "message": "Email is required"}), 400
-
-        # Fetch the progression document for the given material_id
-        progression = Progression.objects(material_id=material_id).first()
-
-        if not progression:
-            return jsonify({"status": 404, "message": "Progression not found"}), 404
-
-        if email not in progression.players:
-            return jsonify({"status": 400, "message": "Player not found in progression"}), 400
-
-        # Increment the player's progression
-        progression.players[email] += 1
-
-        # Save the updated progression
-        progression.save()
-
-        return jsonify({"status": 200, "message": "Progression incremented successfully", "data": progression.players}), 200
 
     except Exception as e:
         return jsonify({"status": 500, "message": str(e)}), 500

@@ -3,8 +3,8 @@ import { apiEndpoints } from '@/config/api';
 import { notifications } from '@mantine/notifications';
 
 export const useGetLeaderboard = () => {
-    const [loading, setLoading] = useState(false);
     const [leaderboard, setLeaderboard] = useState(null);
+    const [loading, setLoading] = useState(false)
 
     const getLeaderboard = async (material_id: string) => {
         setLoading(true);

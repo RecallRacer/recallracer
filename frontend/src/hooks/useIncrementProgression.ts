@@ -1,50 +1,30 @@
-import { useState } from 'react';
-import { notifications } from '@mantine/notifications';
-import { apiEndpoints } from '@/config/api';
+import { apiEndpoints } from "@/config/api";
 
 export const useIncrementProgression = () => {
-    const [loading, setLoading] = useState(false);
-
-    const incrementProgression = async (material_id: string, email: string) => {
-        setLoading(true);
-
+    const incrementProgression = async (material_id: string, email: string, increment_value = 1) => {
         try {
-            const response = await fetch(`${apiEndpoints.progressions}/${material_id}/increment`, {
-                method: 'POST',
+            const response = await fetch(`${apiEndpoints.initLeaderboard}/${material_id}/progressions/increment`, {
+                method: "PATCH",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ email }),
+                body: JSON.stringify({ email, increment_value }),
             });
 
-            const responsePayload = await response.json();
-
+            // Check if the response is OK before trying to parse it
             if (!response.ok) {
-                notifications.show({
-                    title: 'Error',
-                    message: responsePayload.message || 'Failed to increment progression.',
-                    color: 'red',
-                });
-            } else {
-                notifications.show({
-                    title: 'Success',
-                    message: `Progression for ${email} has been successfully incremented!`,
-                    color: 'green',
-                });
+                console.error(`Failed to increment progression. Status: ${response.status}`);
+                return null; // or throw an error
             }
 
+            // Attempt to parse the response
+            const responsePayload = await response.json();
             return responsePayload;
         } catch (error) {
-            notifications.show({
-                title: 'Network Error',
-                message: 'Please check your connection and try again.',
-                color: 'red',
-            });
-            console.error('Network error:', error);
-        } finally {
-            setLoading(false);
+            console.error("Network error or invalid JSON response:", error);
+            return null; // or rethrow the error
         }
-    };
+    }
 
-    return { incrementProgression, loading };
-};
+    return { incrementProgression }
+}

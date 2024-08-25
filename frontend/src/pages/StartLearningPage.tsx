@@ -78,8 +78,8 @@ export function StartLearningPage() {
     return (
         <div className={styles.pageContainer}>
             <Modal opened={opened} onClose={close} title="Add a Player">
-                <form onSubmit={form.onSubmit((values) => {
-                    addPlayer(id as string, values.email)
+                <form onSubmit={form.onSubmit(async (values) => {
+                    await addPlayer(id as string, values.email)
                     setRefetchPlayers(true)
                     close()
                 })}>

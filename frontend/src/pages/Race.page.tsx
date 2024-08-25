@@ -86,10 +86,11 @@ export function RacePage() {
     const [progression, setProgression] = useState<any>();
     const { incrementScore } = useIncrementScore()
 
-    function goToNextQuestion() {
+    async function goToNextQuestion() {
         setHasSubmitted(false);
 
         const nextQuestionExists = hasNextQuestion(allMaterials, parseInt(q_number as string, 10));
+        await incrementProgression(m_id as string, currentUser?.email as string, 1)
 
         if (nextQuestionExists) {
             notifications.show({

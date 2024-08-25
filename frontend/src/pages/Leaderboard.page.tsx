@@ -40,12 +40,12 @@ export function LeaderboardPage() {
         <div className={styles.pageContainer}>
             <Title className={styles.headerTitle}>RecallRacer</Title>
             <Title mt={20} mb={20}>Leaderboard</Title>
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width="50%" height={300}>
                 <BarChart
                     data={leaderboard}
                     margin={{
                         top: 20,
-                        right: 30,
+                        right: 80,
                         left: 20,
                         bottom: 5,
                     }}
@@ -60,7 +60,6 @@ export function LeaderboardPage() {
             </ResponsiveContainer>
             {leaderboard.length > 0 ? (
                 <>
-                    <Text size="lg" mb={40}>{leaderboard[0].email} has won the race!</Text>
                     <Stack>
                         {leaderboard.map(({ email, score }, index) => (
                             <Card
@@ -69,9 +68,6 @@ export function LeaderboardPage() {
                                 shadow="sm"
                                 padding="lg"
                                 radius="md"
-                                style={{
-                                    backgroundColor: index === 0 ? '#ffeb3b' : index === 1 ? '#e0e0e0' : index === 2 ? '#cd7f32' : 'inherit',
-                                }}
                             >
                                 <Stack>
                                     <span style={{ fontWeight: index + 1 <= 3 ? 'bold' : 'normal' }}>
